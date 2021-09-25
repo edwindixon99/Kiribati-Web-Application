@@ -11,9 +11,24 @@ class Translations extends Component {
 
 
     render() {
-        let translations = [1,2,3,4];
+        let translations = [    {
+            "kiribati": "ti a boo",
+            "english": "good-bye",
+            "rating": 0.5
+        },
+        {
+            "kiribati": "a",
+            "english": "indicating immediate past",
+            "rating": 0.5
+        },
+        {
+            "kiribati": "a",
+            "english": "they",
+            "rating": 0.5
+        }
+    ];
         return <div className="Translations container">
-                {translations.map((translation, i) => <Translation kiriPhrase='hi' engPhrase='hi' />)}
+                {this.props.translations.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} />)}
                 </div>;
     }
 

@@ -4,6 +4,7 @@ import App from './App';
 import Translations from './Translations'
 import reportWebVitals from './reportWebVitals';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
