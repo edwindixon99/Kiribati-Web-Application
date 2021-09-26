@@ -1,47 +1,41 @@
 import Translations from './Translations'
 import SearchBar from './SearchBar'
-import { Component } from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
+import {Counter} from './features/counter/Counter'
 
 
-// let trans = [    
-//   {
-//   "kiribati": "ti a boo",
-//   "english": "good-bye",
-//   "rating": 0.5
-// },
-// {
-//   "kiribati": "a",
-//   "english": "indicating immediate past",
-//   "rating": 0.5
-// },
-// {
-//   "kiribati": "a",
-//   "english": "they",
-//   "rating": 0.5
-// }
-// ];
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      translations: null 
-    }
-  }
-  handleChange(e) {
-    this.setState({translations: e.target.value})
-  
-  }
+let trans = [    
+  {
+  "kiribati": "ti a boo",
+  "english": "good-bye",
+  "rating": 0.5
+},
+{
+  "kiribati": "a",
+  "english": "indicating immediate past",
+  "rating": 0.5
+},
+{
+  "kiribati": "a",
+  "english": "they",
+  "rating": 0.5
+}
+];
 
-  render() {
-    return (
-      <div className="App">
-          <SearchBar handleChange={this.handleClick.bind(this)} value={this.state.translations}/>
-          <Translations value={this.state.translations}/>
-      </div>
-    );
-  }
-  
+function App() {
+  let [responseData, setResponseData] = React.useState('');   // new
+
+
+  React.useEffect(() => {
+    setResponseData('hello')
+    console.log(responseData)
+  }, [setResponseData, responseData])
+
+
+  return (
+    <div className="App"></div>
+  );
 }
 
 export default App;

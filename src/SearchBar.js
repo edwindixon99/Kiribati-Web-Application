@@ -23,12 +23,14 @@ class SearchBar extends Component {
     onSubmitTask = (e) => {
         e.preventDefault();
         if (this.state.query !== '') {
-          fetch('localhost:4941/api/v1/english?q=hello')
-          this.setState({
-            query: ''
-          });
+          fetch('http://localhost:4941/api/v1/english?q=hello')
+          .then(response => response.json())
+          .then(data => this.setState({
+            query: '',
+            translations: data}))
+          .catch(console.error)
         };
-    
+        console.log(this.state)
     }
 
     render() {
@@ -56,7 +58,7 @@ class SearchBar extends Component {
                   <button 
                   onSubmit={this.onSubmitTask} 
                   type="submit" 
-                  className="btn btn-primary">ADD</button>
+                  className="btn btn-primary">Search</button>
                 </div>
               </div>
               </form>
