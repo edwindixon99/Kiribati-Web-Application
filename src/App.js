@@ -3,6 +3,9 @@ import SearchBar from './SearchBar'
 import React from 'react';
 import { render } from '@testing-library/react';
 import {Counter} from './features/counter/Counter'
+import axios from 'axios'
+// import {GetData} from './util/getData'
+import { useState, useEffect } from 'react'
 
 
 let trans = [    
@@ -24,17 +27,84 @@ let trans = [
 ];
 
 function App() {
-  let [responseData, setResponseData] = React.useState('');   // new
+  // let [responseData, setResponseData] = React.useState('');   // new
+  // let [searchTerm, setSearchTerm] = React.useState('');
+  const [searchParam, setSearchParam] = React.useState('');
+  const [data, setData] = useState('')
+  const [loading, setLoading] = useState(true)
 
 
-  React.useEffect(() => {
-    setResponseData('hello')
-    console.log(responseData)
-  }, [setResponseData, responseData])
+
+  const onSearch = (searchTerm) => {
+    // console.log(searchParam)
+    setSearchParam(searchTerm)
+    // console.log(searchParam)
+  }
+
+
+  useEffect(() => {
+      async function fetchTranslations() {
+          axios({
+          "method": "GET",
+          "url": "http://localhost:4941/api/v1/kiribati",
+          headers: {
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            },
+          "params": {
+              "q": searchParam
+          }
+          })
+          .then((response) => {
+          setData(response.data)
+          setLoading(false)
+          })
+          .catch((error) => {
+          console.log(error)
+          })
+          
+      }
+
+      console.log(searchParam)
+      if (searchParam) {
+          fetchTranslations()
+          console.log(data)
+      }
+      
+  }, [searchParam, loading])
+
+
+
+
+
+  // React.useEffect(() => {
+  //   axios({
+  //     "method": "GET",
+  //     "url": "http://localhost:4941/api/v1/kiribati",
+  //     // headers: {
+  //     //   'Access-Control-Allow-Origin' : '*',
+  //     //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+  //     //   },
+  //     "params": {
+  //       "q": "a"
+  //     }
+  //   })
+  //   .then((response) => {
+  //     setResponseData(response.data)
+  //     console.log(response.data)
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   })
+  // }, [setResponseData, responseData])
 
 
   return (
-    <div className="App"></div>
+    <div className="App">
+      <SearchBar handleSearch={onSearch}/>
+      {/* <Loading isLoading={loading}/> */}
+      <Translations data={data}/>
+    </div>
   );
 }
 

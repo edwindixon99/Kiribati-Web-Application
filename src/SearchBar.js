@@ -18,17 +18,15 @@ class SearchBar extends Component {
         this.setState({
           query: e.target.value
         });
+        if (this.state.query !== '') {
+          this.props.handleSearch(this.state.query)
+        };
       };
 
     onSubmitTask = (e) => {
         e.preventDefault();
         if (this.state.query !== '') {
-          fetch('http://localhost:4941/api/v1/english?q=hello')
-          .then(response => response.json())
-          .then(data => this.setState({
-            query: '',
-            translations: data}))
-          .catch(console.error)
+          this.props.handleSearch(this.state.query)
         };
         console.log(this.state)
     }
