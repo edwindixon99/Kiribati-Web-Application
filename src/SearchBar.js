@@ -19,7 +19,7 @@ class SearchBar extends Component {
           query: e.target.value
         });
         if (this.state.query !== '') {
-          this.props.handleSearch(this.state.query)
+          this.props.handleSearch(e.target.value)
         };
       };
 
@@ -32,7 +32,7 @@ class SearchBar extends Component {
     }
 
     render() {
-        const { task, tasks } = this.state;
+        
     
         return (
           <div className="App">
@@ -50,6 +50,7 @@ class SearchBar extends Component {
                     type="text" 
                     placeholder="Enter English Word/Phrase" 
                     id="taskInput"
+                    autocomplete="off"
                   />
                 </div>
                 <div className="col-2">

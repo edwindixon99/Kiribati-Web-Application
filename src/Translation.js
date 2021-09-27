@@ -14,7 +14,7 @@ class Translation extends Component {
                         <h2>{this.props.engPhrase}</h2>
                         </div>
                         <div className="col-5">
-                            {this.props.kiriPhrase}
+                            <h2>{this.props.kiriPhrase}</h2>
                         </div>
                         <div className="col-1">
                             

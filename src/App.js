@@ -30,7 +30,7 @@ function App() {
   // let [responseData, setResponseData] = React.useState('');   // new
   // let [searchTerm, setSearchTerm] = React.useState('');
   const [searchParam, setSearchParam] = React.useState('');
-  const [data, setData] = useState('')
+  const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
 
@@ -46,7 +46,7 @@ function App() {
       async function fetchTranslations() {
           axios({
           "method": "GET",
-          "url": "http://localhost:4941/api/v1/kiribati",
+          "url": "http://localhost:4941/api/v1/english",
           headers: {
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
