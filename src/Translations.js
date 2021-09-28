@@ -12,7 +12,10 @@ class Translations extends Component {
 
     render() {
         return <div className="Translations container">
-                {this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} />)}
+                {(this.props.lang == 'kiribati')
+                ? this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={true}/>)
+                : this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={false}/>)
+            }
                 </div>;
     }
 

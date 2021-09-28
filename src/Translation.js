@@ -11,10 +11,16 @@ class Translation extends Component {
     return      <div className="Translation container">
                     <div className="row">
                         <div className="col-5">
-                        <h2>{this.props.engPhrase}</h2>
+                        {(this.props.order)
+                        ? <h2>{this.props.kiriPhrase}</h2>
+                        : <h2>{this.props.engPhrase}</h2>
+                        }
                         </div>
                         <div className="col-5">
-                            <h2>{this.props.kiriPhrase}</h2>
+                        {(this.props.order)
+                            ? <h2>{this.props.engPhrase}</h2>
+                            : <h2>{this.props.kiriPhrase}</h2>
+                        }
                         </div>
                         <div className="col-1">
                             

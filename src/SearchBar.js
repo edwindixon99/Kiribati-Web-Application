@@ -3,8 +3,8 @@ import { Component } from "react";
 class SearchBar extends Component {
 
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     
         this.state = {
             query: '',
@@ -47,8 +47,8 @@ class SearchBar extends Component {
                     className="form-control form-control-lg"   
                     onChange={this.handleChange}
                     value={this.state.query} 
-                    type="text" 
-                    placeholder="Enter English Word/Phrase" 
+                    type="text"
+                    placeholder={this.props.placeholder} 
                     id="taskInput"
                     autocomplete="off"
                   />
