@@ -61,7 +61,6 @@ function Authentication() {
       }
 
     return <div>
-    hello
         {(authed) && <div>hello</div>}
         <GoogleLogin
     clientId="236247714069-pie6693vletboqghfvdptc2tmenva2al.apps.googleusercontent.com"
