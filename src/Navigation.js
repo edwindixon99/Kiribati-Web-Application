@@ -17,7 +17,7 @@ const responseGoogle = (response) => {
 
 
 const Navigation = () => (
-
+  <div>
   <Navbar bg="light" variant="light">
     <Container>
     <Navbar.Brand href="#home"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Kiribati_National_Emblem.png" width="30" height="30" class="d-inline-block align-top" alt="" />Translations</Navbar.Brand>
@@ -32,6 +32,8 @@ const Navigation = () => (
     </Navbar.Collapse>
     </Container>
   </Navbar>
+  <br />
+  </div>
 
    
   );

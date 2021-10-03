@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react'
 
 function Register() {
     const [authed, setAuthed] = useState(true)
+    const [username, setUsername] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+  }
 
     return <div className="container">
         
@@ -14,9 +20,9 @@ function Register() {
     </div>
     </div>
     <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">Username</label>
+    <label for="username" class="col-sm-2 col-form-label">Username</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" placeholder="Enter Username"/>
+      <input type="text" class="form-control" id="username" placeholder="Enter Username" onChange={e=> setUsername(e.target.value)}/>
     </div>
   </div>
   
