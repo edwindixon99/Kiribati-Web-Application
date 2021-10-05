@@ -20,7 +20,7 @@ const Navigation = () => (
   <div>
   <Navbar bg="light" variant="light">
     <Container>
-    <Navbar.Brand href="#home"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Kiribati_National_Emblem.png" width="30" height="30" class="d-inline-block align-top" alt="" />Translations</Navbar.Brand>
+    <Navbar.Brand><NavLink to='/' className="nav-link"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Kiribati_National_Emblem.png" width="30" height="30" class="d-inline-block align-top" alt="" />Translations</NavLink></Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
