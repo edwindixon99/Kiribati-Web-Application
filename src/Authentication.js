@@ -87,6 +87,27 @@ function Authentication() {
     // setAuthed(false)
     setSessionToken(null)
 
+    async function logoutAttempt() {
+      axios({
+      "method": "POST",
+      "url": "http://localhost:4941/api/v1/logout",
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'x-authorization':sessionToken
+        },
+      })
+      .then((requestResponse) => {
+        // setAuthed(true)
+        console.log(requestResponse)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      
+      
+  }
+  logoutAttempt()
 
   }
 
