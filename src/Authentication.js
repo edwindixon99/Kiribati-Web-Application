@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios'
@@ -6,6 +6,8 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import { useHistory } from "react-router-dom";
 import useLocalStorage from "./hooks/useLocalStorage"
 
+import {RegisterContext} from './RegisterContext'
+import userEvent from '@testing-library/user-event';
 
 
 
@@ -14,6 +16,8 @@ import useLocalStorage from "./hooks/useLocalStorage"
 function Authentication() {
   const history = useHistory();
   const [sessionToken, setSessionToken] = useLocalStorage("sessionToken", null)
+  const [newUser, SetNewUser] = useContext(RegisterContext)
+
   // const [authed, setAuthed] = useState(false)
 
 
@@ -40,10 +44,14 @@ function Authentication() {
             // setAuthed(true)
             console.log(requestResponse)
             setSessionToken(requestResponse.data);
+            history.push("/");
           })
           .catch((error) => {
-            if (error.response.status == 404) {
+            if (error.response.status === 404) {
               history.push("/register");
+              console.log(response.dt.Ot)
+              console.log(response.googleId)
+              SetNewUser({username:'', 'email':response.dt.Ot, 'idtoken':response.tokenId})
 
               //
             }
@@ -100,6 +108,7 @@ function Authentication() {
       .then((requestResponse) => {
         // setAuthed(true)
         console.log(requestResponse)
+        history.push("/");
       })
       .catch((error) => {
         console.log(error)
