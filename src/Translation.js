@@ -1,10 +1,13 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import useLocalStorage from "./hooks/useLocalStorage";
 import './box.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 
 function Translation({order, kiriPhrase, engPhrase, rating}) {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
+    const [voted, setVoted] = useState(true);
 
     function chooseColour(rating) {
         let r = 0;
@@ -35,7 +38,24 @@ function Translation({order, kiriPhrase, engPhrase, rating}) {
                         }
                         </div>
                         <div className="col-1">
-                            
+
+                        <div className="row">
+
+                        <div className="col">
+                        {
+                        voted?
+                        <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg"/>
+                        : <FontAwesomeIcon icon={faThumbsUp}  size="lg"/>
+                        }
+                        </div>
+                        <div className="col">
+                        {
+                        voted?
+                        <FontAwesomeIcon style={{"color":"red"}}  icon={faThumbsDown}  size="lg"/>
+                        : <FontAwesomeIcon icon={faThumbsDown}  size="lg"/>
+                        }
+                        </div>
+                        </div>
                         </div>
                         <div className="col-1">
                             {sessionToken && <div className="box" style={chooseColour(rating)}/>}
