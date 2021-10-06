@@ -13,8 +13,8 @@ class Translations extends Component {
     render() {
         return <div className="Translations container">
                 {(this.props.lang == 'kiribati')
-                ? this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={true} rating={translation.rating}/>)
-                : this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={false} rating={translation.rating}/>)
+                ? this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={true} rating={translation.rating} id={translation.id}/>)
+                : this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={false} rating={translation.rating} id={translation.id}/>)
             }
                 </div>;
     }

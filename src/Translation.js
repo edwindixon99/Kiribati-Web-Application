@@ -3,11 +3,36 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import './box.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import axios from "axios";
 
 
-function Translation({order, kiriPhrase, engPhrase, rating}) {
+function Translation({order, kiriPhrase, engPhrase, rating, id}) {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
-    const [voted, setVoted] = useState(true);
+    const [upVoted, setUpVoted] = useState(false);
+    const [downVoted, setDownVoted] = useState(false);
+
+    // if (sessionToken) {
+    //     axios({
+    //         "method": "GET",
+    //         "url": `http://localhost:4941/api/v1/translations/${id}/type`,
+    //         headers: {
+    //           'Access-Control-Allow-Origin' : '*',
+    //           'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    //           'x-authorization':sessionToken
+    //           },
+    //         })
+    //         .then((requestResponse) => {
+    //           // setAuthed(true)
+    //          console.log(requestResponse)
+    //         })
+    //         .catch((error) => {
+        
+    //           console.log(error)
+    //         })
+        
+    // }
+    
+
 
     function chooseColour(rating) {
         let r = 0;
@@ -43,14 +68,14 @@ function Translation({order, kiriPhrase, engPhrase, rating}) {
 
                         <div className="col">
                         {
-                        voted?
+                        upVoted?
                         <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg"/>
                         : <FontAwesomeIcon icon={faThumbsUp}  size="lg"/>
                         }
                         </div>
                         <div className="col">
                         {
-                        voted?
+                        downVoted?
                         <FontAwesomeIcon style={{"color":"red"}}  icon={faThumbsDown}  size="lg"/>
                         : <FontAwesomeIcon icon={faThumbsDown}  size="lg"/>
                         }
