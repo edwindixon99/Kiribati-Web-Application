@@ -3,18 +3,19 @@ import SearchBar from './SearchBar'
 import React from 'react';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import useLocalStorage from './hooks/useLocalStorage';
 
 
 
 function TranslationPage(props) {
-  // let [responseData, setResponseData] = React.useState('');   // new
-  // let [searchTerm, setSearchTerm] = React.useState('');
   const [searchParam, setSearchParam] = React.useState('');
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  console.log({props})
+  const [sessionToken,] = useLocalStorage("sessionToken", null)
+  const [voteData, setVoteData] = useState({});
+
   let url = "http://localhost:4941/api/v1/" + props.lang;
-  console.log(url);
+
 
 
 
@@ -23,6 +24,8 @@ function TranslationPage(props) {
     setSearchParam(searchTerm)
     // console.log(searchParam)
   }
+
+
 
 
   useEffect(() => {
@@ -53,15 +56,36 @@ function TranslationPage(props) {
           fetchTranslations()
           console.log(data)
       }
+
+      if (sessionToken) {
+        axios({
+            "method": "GET",
+            "url": `http://localhost:4941/api/v1/translations/votes`,
+            headers: {
+              'Access-Control-Allow-Origin' : '*',
+              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+              'x-authorization':sessionToken
+              },
+            })
+            .then((requestResponse) => {
+
+            setVoteData(requestResponse.data)
+            })
+            .catch((error) => {
+        
+              console.log(error)
+            })
       
-  }, [searchParam, loading, url])
+      }
+      
+  }, [searchParam, loading, url, sessionToken])
 
 
   return (
     <div>
       <SearchBar handleSearch={onSearch} placeholder={`Enter ${props.lang} Word/Phrase`}/>
       {/* <Loading isLoading={loading}/> */}
-      <Translations lang={props.lang} data={data}/>
+      <Translations lang={props.lang} data={data} voteData={voteData}/>
     </div>
   );
 }

@@ -129,7 +129,7 @@ function Authentication() {
     </GoogleLogout>}
     {!sessionToken && <GoogleLogin
     clientId="236247714069-pie6693vletboqghfvdptc2tmenva2al.apps.googleusercontent.com"
-    buttonText="Login"
+    buttonText="Sign in with Google"
     onSuccess={responseGoogle}
     onFailure={responseGoogle}
     cookiePolicy={'single_host_origin'}

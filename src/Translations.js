@@ -1,23 +1,24 @@
-import { Component } from "react";
 import Translation from "./Translation"
 
 
-class Translations extends Component {
+function Translations(props) {
 
-    constructor(props) {
-        super(props);
+    // console.log(props.voteData)
+    const votetype = function(translationId) {
+        return props.voteData[parseInt(translationId)]
+        
     }
 
 
 
-    render() {
-        return <div className="Translations container">
-                {(this.props.lang == 'kiribati')
-                ? this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={true} rating={translation.rating} id={translation.id}/>)
-                : this.props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={false} rating={translation.rating} id={translation.id}/>)
-            }
-                </div>;
-    }
+
+    return <div className="Translations container">
+            {(props.lang == 'kiribati')
+            ? props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={true} rating={translation.rating} id={translation.id} voteType={votetype(translation.id)}/>)
+            : props.data.map((translation, i) => <Translation kiriPhrase={translation.kiribati} engPhrase={translation.english} order={false} rating={translation.rating} id={translation.id} voteType={votetype(translation.id)}/>)
+        }
+            </div>;
+
 
   }
   
