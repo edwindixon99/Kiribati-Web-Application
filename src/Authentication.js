@@ -29,6 +29,7 @@ function Authentication() {
 
 
         async function loginAttempt() {
+          console.log(idtoken)
           axios({
           "method": "POST",
           "url": "http://localhost:4941/api/v1/login",
@@ -48,11 +49,11 @@ function Authentication() {
           })
           .catch((error) => {
             if (error.response.status === 404) {
-              history.push("/register");
+              
               console.log(response.dt.Ot)
               console.log(response.googleId)
               SetNewUser({username:'', 'email':response.dt.Ot, 'idtoken':response.tokenId})
-
+              history.push("/register");
               //
             }
             console.log(error)

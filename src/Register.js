@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useHistory } from 'react-router'
 import useLocalStorage from "./hooks/useLocalStorage"
 import { login } from './util/authRequests'
+import { Redirect } from "react-router-dom";
+import React, { useEffect } from 'react';
 
 
 
@@ -34,7 +36,7 @@ function Register() {
         console.log(requestResponse)
         // login(newUser.idtoken, setSessionToken)
         history.push('/')
-        
+        alert("Account created successfully! you can now Log in")
       })
       .catch((error) => {
         console.log(error)
@@ -43,10 +45,19 @@ function Register() {
 
     registerUser();
   }
+  useEffect(() => {
+    return () => {
+      SetNewUser(        {
+        'username':'',
+        'email':'',
+        'idtoken':''
+      })
+    }
+  }, [])
 
-    return <div className="container">
+    return (newUser.email != '')? (<div className="container">
         
-        {(authed) && <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div class="form-group row">
         <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
         <div class="col-sm-10">
@@ -61,8 +72,13 @@ function Register() {
   </div>
   
   <button type="submit" class="btn btn-primary">Create Account</button>
-</form>}
-    </div>
+</form>
+    </div>)
+    :(
+      <Redirect to="/" />
+    )
+    
+    
 }
 
 export default Register;
