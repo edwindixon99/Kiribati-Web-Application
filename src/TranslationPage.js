@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
+import { useHistory } from "react-router-dom";
 
 
 
@@ -13,6 +14,7 @@ function TranslationPage(props) {
   const [loading, setLoading] = useState(true)
   const [sessionToken,] = useLocalStorage("sessionToken", null)
   const [voteData, setVoteData] = useState({});
+  const history = useHistory();
 
   let url = "http://localhost:4941/api/v1/" + props.lang;
 
@@ -74,6 +76,10 @@ function TranslationPage(props) {
             .catch((error) => {
         
               console.log(error)
+              if (error.response.status === 403) {
+                history.push("/");
+                alert("Timed out You need to logout.")
+              }
             })
       
       }

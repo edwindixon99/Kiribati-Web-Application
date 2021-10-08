@@ -5,12 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import useForceUpdate from 'use-force-update';
+import { useHistory } from "react-router-dom";
 
 
 function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [vote, setVote] = useState(voteType);
     const forceUpdate = useForceUpdate();
+    const history = useHistory();
 
 
     React.useEffect(() => {
@@ -51,6 +53,10 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                 })
                 .catch((error) => {
                   console.log(error)
+                  if (error.response.status === 403) {
+                    history.push("/");
+                    alert("Timed out You need to logout.")
+                  }
                 })
           
           }
@@ -70,6 +76,29 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                 .then((requestResponse) => {
                     console.log(vote)
                     setVote(0);
+                    
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+          
+          }
+    }
+
+
+    const removevote = function() {
+        if (sessionToken) {
+            axios({
+                "method": "DELETE",
+                "url": `http://localhost:4941/api/v1/translations/${id}/remove`,
+                headers: {
+                  'Access-Control-Allow-Origin' : '*',
+                  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                  'x-authorization':sessionToken
+                  },
+                })
+                .then(() => {
+                    setVote(null);
                     
                 })
                 .catch((error) => {
@@ -103,14 +132,14 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                         <div className="col">
                         {
                         vote === 1?
-                        <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg"/>
+                        <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg" onClick={removevote}/>
                         : <FontAwesomeIcon icon={faThumbsUp}  size="lg" onClick={upvote}/>
                         }
                         </div>
                         <div className="col">
                         {
                         vote === 0?
-                        <FontAwesomeIcon style={{"color":"red"}}  icon={faThumbsDown}  size="lg"/>
+                        <FontAwesomeIcon style={{"color":"red"}}  icon={faThumbsDown}  size="lg" onClick={removevote}/>
                         : <FontAwesomeIcon icon={faThumbsDown}  size="lg" onClick={downvote}/>
                         }
                         </div>
