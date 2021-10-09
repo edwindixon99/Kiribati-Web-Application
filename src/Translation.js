@@ -112,13 +112,13 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
 
     return      <div className="Translation container">
                     <div className="row">
-                        <div className="col-5">
+                        <div className="col">
                         {(order)
                         ? <h2>{kiriPhrase}</h2>
                         : <h2>{engPhrase}</h2>
                         }
                         </div>
-                        <div className="col-5">
+                        <div className="col">
                         {(order)
                             ? <h2>{engPhrase}</h2>
                             : <h2>{kiriPhrase}</h2>
