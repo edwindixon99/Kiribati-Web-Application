@@ -24,7 +24,7 @@ function Register() {
     async function registerUser() {
       axios({
       "method": "POST",
-      "url": "http://localhost:4941/api/v1/register",
+      "url": "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/register",
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

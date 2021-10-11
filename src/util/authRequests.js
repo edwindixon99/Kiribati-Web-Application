@@ -8,7 +8,7 @@ export async function login(idtoken, setSessionToken) {
 
     axios({
     "method": "POST",
-    "url": "http://localhost:4941/api/v1/login",
+    "url": "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/login",
     headers: {
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
