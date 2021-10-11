@@ -39,7 +39,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "POST",
-                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/translations/${id}/upvote`,
+                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/translations/${id}/upvote`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -66,7 +66,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "POST",
-                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/translations/${id}/downvote`,
+                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/translations/${id}/downvote`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -90,7 +90,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "DELETE",
-                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/translations/${id}/remove`,
+                "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/translations/${id}/remove`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

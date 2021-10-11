@@ -16,7 +16,7 @@ function TranslationPage(props) {
   const [voteData, setVoteData] = useState({});
   const history = useHistory();
 
-  let url = "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/" + props.lang;
+  let url = "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/" + props.lang;
 
 
 
@@ -62,7 +62,7 @@ function TranslationPage(props) {
       if (sessionToken) {
         axios({
             "method": "GET",
-            "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/translations/votes`,
+            "url": `http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/translations/votes`,
             headers: {
               'Access-Control-Allow-Origin' : '*',
               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

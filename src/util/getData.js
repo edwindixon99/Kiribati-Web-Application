@@ -10,7 +10,7 @@ export const GetData = (searchParam, initialState) => {
         async function fetchTranslations() {
             axios({
             "method": "GET",
-            "url": "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com//api/v1/kiribati",
+            "url": "http://kiribatiwebapi-env.eba-txwahgpx.ap-southeast-2.elasticbeanstalk.com/api/v1/kiribati",
             // headers: {
             //   'Access-Control-Allow-Origin' : '*',
             //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
