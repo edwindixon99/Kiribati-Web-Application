@@ -132,7 +132,7 @@ function Authentication() {
     clientId="236247714069-pie6693vletboqghfvdptc2tmenva2al.apps.googleusercontent.com"
     buttonText="Sign in with Google"
     onSuccess={responseGoogle}
-    onFailure={responseGoogle}
+    onFailure={console.log("fail")}
     cookiePolicy={'single_host_origin'}
   />}
         
