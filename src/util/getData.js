@@ -10,7 +10,7 @@ export const GetData = (searchParam, initialState) => {
         async function fetchTranslations() {
             axios({
             "method": "GET",
-            "url": "https://acme.kiribatitranslate.com/api/v1/kiribati",
+            "url": "http://localhost:4941/api/v1/kiribati",
             // headers: {
             //   'Access-Control-Allow-Origin' : '*',
             //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

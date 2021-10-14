@@ -11,47 +11,51 @@ import { useHistory } from "react-router-dom";
 function TranslationPage(props) {
   const [searchParam, setSearchParam] = React.useState('');
   const [data, setData] = useState([])
+  const [exact, setExact] = useState(false)
   const [loading, setLoading] = useState(true)
   const [sessionToken,] = useLocalStorage("sessionToken", null)
   const [voteData, setVoteData] = useState({});
   const history = useHistory();
 
-  let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
+  let url = "http://localhost:4941/api/v1/" + props.lang;
 
 
+  async function fetchTranslations() {
+    axios({
+    "method": "GET",
+    "url": url,
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      },
+    "params": {
+        "q": searchParam,
+        "exact":exact
+    },
+    })
+    .then((response) => {
+    setData(response.data)
+    setLoading(false)
+    })
+    .catch((error) => {
+    console.log(error)
+    })
+    
+  }
 
-
-  const onSearch = (searchTerm) => {
+  const onSearch = (searchTerm, exact) => {
     // console.log(searchParam)
     setSearchParam(searchTerm)
+    setExact(exact)
     // console.log(searchParam)
+    fetchTranslations()
   }
 
 
 
 
   useEffect(() => {
-      async function fetchTranslations() {
-          axios({
-          "method": "GET",
-          "url": url,
-          headers: {
-            'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            },
-          "params": {
-              "q": searchParam
-          }
-          })
-          .then((response) => {
-          setData(response.data)
-          setLoading(false)
-          })
-          .catch((error) => {
-          console.log(error)
-          })
-          
-      }
+    fetchTranslations()
 
       console.log(searchParam)
       if (searchParam) {
@@ -62,7 +66,7 @@ function TranslationPage(props) {
       if (sessionToken) {
         axios({
             "method": "GET",
-            "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
+            "url": `http://localhost:4941/api/v1/translations/votes`,
             headers: {
               'Access-Control-Allow-Origin' : '*',
               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

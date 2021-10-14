@@ -19,14 +19,14 @@ class SearchBar extends Component {
           query: e.target.value
         });
         if (this.state.query !== '') {
-          this.props.handleSearch(e.target.value)
+          this.props.handleSearch(e.target.value, false)
         };
       };
 
     onSubmitTask = (e) => {
         e.preventDefault();
         if (this.state.query !== '') {
-          this.props.handleSearch(this.state.query)
+          this.props.handleSearch(this.state.query, true)
         };
         console.log(this.state)
     }

@@ -25,7 +25,7 @@ function Register() {
     async function registerUser() {
       axios({
       "method": "POST",
-      "url": "https://acme.kiribatitranslate.com/api/v1/register",
+      "url": "http://localhost:4941/api/v1/register",
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
