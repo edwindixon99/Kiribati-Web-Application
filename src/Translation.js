@@ -6,6 +6,7 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import useForceUpdate from 'use-force-update';
 import { useHistory } from "react-router-dom";
+import Word from "./Word"
 
 
 function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
@@ -114,14 +115,14 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                     <div className="row">
                         <div className="col">
                         {(order)
-                        ? <h2>{kiriPhrase}</h2>
-                        : <h2>{engPhrase}</h2>
+                        ? <Word word={kiriPhrase} isKiri={order}/>
+                        : <Word word={engPhrase} isKiri={order}/>
                         }
                         </div>
                         <div className="col">
                         {(order)
-                            ? <h2>{engPhrase}</h2>
-                            : <h2>{kiriPhrase}</h2>
+                            ? <Word word={engPhrase} isKiri={!order}/>
+                            : <Word word={kiriPhrase} isKiri={!order}/>
                         }
                         </div>
                         {sessionToken &&
