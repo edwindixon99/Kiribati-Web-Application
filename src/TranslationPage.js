@@ -96,7 +96,7 @@ function TranslationPage(props) {
       <div className="row">
         <SearchBar handleSearch={onSearch} placeholder={`Enter ${props.lang} Word/Phrase`}/>
       </div>
-      <div>
+      <div className="row">
         <Translations lang={props.lang} data={data} voteData={voteData}/>
       </div>
       {/* <Loading isLoading={loading}/> */}

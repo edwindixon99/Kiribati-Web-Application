@@ -17,11 +17,17 @@ function WordPage() {
     const [voteData, setVoteData] = useState({});
     const { lang, word } = useParams();
     const [addSelected, setAddSelected] = useState(false);
+    const [newWord, setNewWord] = useState("")
     console.log(lang)
 
     let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
 
-
+    const addTranslation = function(e) {
+      e.preventDefault();
+      console.log(newWord)
+      // setAddSelected(false)
+      
+    }
 
     useEffect(() => {
         async function fetchTranslations() {
@@ -89,11 +95,13 @@ function WordPage() {
                 <h1>{word}</h1>
               </div>
               <div className="col">
-                {addSelected && <div>
-                  <input/>
-                  <button className="btn btn-primary" onClick={() => setAddSelected(false)}>Submit</button>
+                {addSelected && <div className="row">
+                  <form className="form-inline">
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder="Enter Translation" required/>
+                  <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
+                  </form>
                   </div>}
-                {!addSelected && <button className="btn btn-primary" onClick={() => setAddSelected(true)}>Add Translation</button>}
+                {!addSelected && <button onClick={() => setAddSelected(true)} className="btn btn-primary btn-lg">Add Translation</button>}
                 
               </div>
             </div>
