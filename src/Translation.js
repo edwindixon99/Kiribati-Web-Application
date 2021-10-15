@@ -40,7 +40,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "POST",
-                "url": `http://localhost:4941/api/v1/translations/${id}/upvote`,
+                "url": `https://acme.kiribatitranslate.com/api/v1/translations/${id}/upvote`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -67,7 +67,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "POST",
-                "url": `http://localhost:4941/api/v1/translations/${id}/downvote`,
+                "url": `https://acme.kiribatitranslate.com/api/v1/translations/${id}/downvote`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -91,7 +91,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         if (sessionToken) {
             axios({
                 "method": "DELETE",
-                "url": `http://localhost:4941/api/v1/translations/${id}/remove`,
+                "url": `https://acme.kiribatitranslate.com/api/v1/translations/${id}/remove`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

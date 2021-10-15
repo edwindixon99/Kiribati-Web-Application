@@ -16,10 +16,10 @@ function WordPage() {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [voteData, setVoteData] = useState({});
     const { lang, word } = useParams();
+    const [addSelected, setAddSelected] = useState(false);
     console.log(lang)
 
-    let url = "http://localhost:4941/api/v1/" + lang;
-
+    let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
 
 
 
@@ -53,7 +53,7 @@ function WordPage() {
         if (sessionToken) {
             axios({
                 "method": "GET",
-                "url": `http://localhost:4941/api/v1/translations/votes`,
+                "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
                 headers: {
                   'Access-Control-Allow-Origin' : '*',
                   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -75,6 +75,9 @@ function WordPage() {
           
           }
           
+          if (addSelected) {
+            setAddSelected(false)
+          }
       }, [word, url, sessionToken])
     
   
@@ -82,7 +85,17 @@ function WordPage() {
 
     return <div className="container">
             <div className="row">
+              <div className="col">
                 <h1>{word}</h1>
+              </div>
+              <div className="col">
+                {addSelected && <div>
+                  <input/>
+                  <button className="btn btn-primary" onClick={() => setAddSelected(false)}>Submit</button>
+                  </div>}
+                {!addSelected && <button className="btn btn-primary" onClick={() => setAddSelected(true)}>Add Translation</button>}
+                
+              </div>
             </div>
             <br />
             <br />

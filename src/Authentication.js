@@ -32,7 +32,7 @@ function Authentication() {
           console.log(idtoken)
           axios({
           "method": "POST",
-          "url": "http://localhost:4941/api/v1/login",
+          "url": "https://acme.kiribatitranslate.com/api/v1/login",
           headers: {
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -68,7 +68,7 @@ function Authentication() {
     //   async function logoutAttempt() {
     //     axios({
     //     "method": "POST",
-    //     "url": "http://localhost:4941/api/v1/logout",
+    //     "url": "https://acme.kiribatitranslate.com/api/v1/logout",
     //     headers: {
     //       'Access-Control-Allow-Origin' : '*',
     //       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -99,7 +99,7 @@ function Authentication() {
     async function logoutAttempt() {
       axios({
       "method": "POST",
-      "url": "http://localhost:4941/api/v1/logout",
+      "url": "https://acme.kiribatitranslate.com/api/v1/logout",
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

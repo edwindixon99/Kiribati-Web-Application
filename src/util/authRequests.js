@@ -8,7 +8,7 @@ export async function login(idtoken, setSessionToken) {
 
     axios({
     "method": "POST",
-    "url": "http://localhost:4941/api/v1/login",
+    "url": "https://acme.kiribatitranslate.com/api/v1/login",
     headers: {
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

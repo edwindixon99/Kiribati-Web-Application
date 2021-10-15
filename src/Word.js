@@ -19,7 +19,7 @@ function Word({isKiri, word}) {
     //     if (sessionToken) {
     //         axios({
     //             "method": "POST",
-    //             "url": `http://localhost:4941/api/v1/translations/${id}/upvote`,
+    //             "url": `https://acme.kiribatitranslate.com/api/v1/translations/${id}/upvote`,
     //             headers: {
     //               'Access-Control-Allow-Origin' : '*',
     //               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',

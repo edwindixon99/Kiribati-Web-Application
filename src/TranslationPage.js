@@ -17,7 +17,7 @@ function TranslationPage(props) {
   const [voteData, setVoteData] = useState({});
   const history = useHistory();
 
-  let url = "http://localhost:4941/api/v1/" + props.lang;
+  let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
 
 
   async function fetchTranslations() {
@@ -66,7 +66,7 @@ function TranslationPage(props) {
       if (sessionToken) {
         axios({
             "method": "GET",
-            "url": `http://localhost:4941/api/v1/translations/votes`,
+            "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
             headers: {
               'Access-Control-Allow-Origin' : '*',
               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -92,10 +92,14 @@ function TranslationPage(props) {
 
 
   return (
-    <div>
-      <SearchBar handleSearch={onSearch} placeholder={`Enter ${props.lang} Word/Phrase`}/>
+    <div className="container">
+      <div className="row">
+        <SearchBar handleSearch={onSearch} placeholder={`Enter ${props.lang} Word/Phrase`}/>
+      </div>
+      <div>
+        <Translations lang={props.lang} data={data} voteData={voteData}/>
+      </div>
       {/* <Loading isLoading={loading}/> */}
-      <Translations lang={props.lang} data={data} voteData={voteData}/>
     </div>
   );
 }
