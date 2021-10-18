@@ -21,7 +21,7 @@ function Register() {
     e.preventDefault();
 
     SetNewUser({...newUser, 'username':username})
-    console.log(newUser)
+    
     async function registerUser() {
       axios({
       "method": "POST",
@@ -34,7 +34,7 @@ function Register() {
       })
       .then((requestResponse) => {
         // setAuthed(true)
-        console.log(requestResponse)
+        
         setError(null)
         // login(newUser.idtoken, setSessionToken)
         history.push('/')

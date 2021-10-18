@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import './Style.css'
 
 
 function Word({isKiri, word}) {
@@ -6,7 +7,7 @@ function Word({isKiri, word}) {
 
 
     function goToWord() {
-        console.log("hello")
+        
         if (isKiri) {
             history.push('/kiribati/' + word)
         } else {
@@ -27,12 +28,12 @@ function Word({isKiri, word}) {
     //               },
     //             })
     //             .then((requestResponse) => {
-    //                 console.log(vote)
+    //                 
     //                 setVote(1);
                     
     //             })
     //             .catch((error) => {
-    //               console.log(error)
+    //               
     //               if (error.response.status === 403) {
     //                 history.push("/");
     //                 alert("Timed out You need to logout.")
@@ -44,7 +45,7 @@ function Word({isKiri, word}) {
 
 
 
-    return <div onClick={goToWord}><h2>{word}</h2></div>
+    return <div className="clickable-div" onClick={goToWord}><h2>{word}</h2></div>
     
 
   }

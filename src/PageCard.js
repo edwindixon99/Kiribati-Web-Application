@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import './Style.css'
 
 
 function PageCard({title, eDesc, kDesc, url}) {
@@ -6,7 +7,7 @@ function PageCard({title, eDesc, kDesc, url}) {
 
 
     return <div className="col">
-      <div className="card" style={{cursor:"pointer"}} onClick={() =>history.push(url)}>
+      <div className="card clickable-div" onClick={() =>history.push(url)}>
   <div className="card-body">
     <h5 className="card-title">{title}</h5>
     <p className="card-text">{eDesc}</p>

@@ -1,5 +1,4 @@
 import Translations from './Translations'
-import SearchBar from './SearchBar'
 import React from 'react';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
@@ -12,20 +11,64 @@ import { useParams } from 'react-router-dom';
 
 function WordPage() {
     const history = useHistory();
-    const [data, setData] = useState([])
-    const [sessionToken,] = useLocalStorage("sessionToken", null)
-    const [voteData, setVoteData] = useState({});
     const { lang, word } = useParams();
+    const [sessionToken,] = useLocalStorage("sessionToken", null)
+    
+    const [data, setData] = useState([]);
+    const [voteData, setVoteData] = useState({});
     const [addSelected, setAddSelected] = useState(false);
     const [newWord, setNewWord] = useState("")
     const [error, setError] = useState(null)
+    const [lplaceholder, setLPlaceholder] = useState('')
     console.log(lang)
 
+    
+    
     let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
+    
+    
+    
+    async function fetchTranslations() {
+      axios({
+      "method": "GET",
+      "url": url,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        },
+      "params": {
+          "q": word,
+          "exact":true
+      },
+      })
+      .then((response) => {
+      setData(response.data)
+      })
+      .catch((error) => {
+      console.log(error)
+      })
+      
+  }
 
+    const otherLang = function(language) {
+      
+       if (language === 'english') {
+         return 'Kiribati'
+       } else {
+          
+         return 'English'
+       }
+    }
+    const getPlaceholder = function(language) {
+      if (language === 'english') {
+        setLPlaceholder('in Kiribati means')
+      } else {
+        setLPlaceholder('in English means')
+      }
+    }
     const addTranslation = function(e) {
       e.preventDefault();
-      console.log(newWord)
+      
       // setAddSelected(false)
       async function postTranslation() {
       axios({
@@ -40,12 +83,16 @@ function WordPage() {
         })
         .then((requestResponse) => {
           setError(null)
-        console.log("finished")
+          setAddSelected(false)
+          setNewWord("")
+          fetchTranslations()
+
+        
         })
         .catch((error) => {
     
           if (error.response.status === 400) {
-            setError("translation already exists")
+            setError("Translation Already Exists")
           }
           if (error.response.status === 403) {
             history.push("/");
@@ -53,8 +100,8 @@ function WordPage() {
           }
         })
       }
-      if (/^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$/.test(newWord)){
-        console.log("works")
+      if (/^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$/.test(newWord)){
+        
         postTranslation()
       } else {
         setError("Bad input format")
@@ -64,31 +111,13 @@ function WordPage() {
   
 
     useEffect(() => {
-        async function fetchTranslations() {
-            axios({
-            "method": "GET",
-            "url": url,
-            headers: {
-              'Access-Control-Allow-Origin' : '*',
-              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-              },
-            "params": {
-                "q": word,
-                "exact":true
-            },
-            })
-            .then((response) => {
-            setData(response.data)
-            })
-            .catch((error) => {
-            console.log(error)
-            })
-            
-        }
-  
+      getPlaceholder(lang)
+      // if (!/^[a-zA-Z0-9.!?_\\-]+( [a-zA-Z0-9.!?_\\-]+)*$/.test(word)) {
+      //   history.goBack()
+      // }
         if (word) {
             fetchTranslations()
-            console.log(data)
+            
         }
         if (sessionToken) {
             axios({
@@ -117,7 +146,9 @@ function WordPage() {
           
           if (addSelected) {
             setAddSelected(false)
+            setError(null)
           }
+          setError(null)
       }, [word, url, sessionToken])
     
   
@@ -131,12 +162,12 @@ function WordPage() {
               <div className="col">
                 {addSelected && sessionToken && <div className="row">
                   <form className="form-inline">
-                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder="Enter Translation" pattern="^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$"/>
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+                  {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
                   <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
                   </form>
-                  {error && <span className="badge badge-danger">Danger</span>};
                   </div>}
-                {!addSelected && sessionToken && <button onClick={() => setAddSelected(true)} className="btn btn-primary btn-lg">Add Translation</button>}
+                {!addSelected && sessionToken && <button onClick={() => setAddSelected(true)} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
                 
               </div>
             </div>

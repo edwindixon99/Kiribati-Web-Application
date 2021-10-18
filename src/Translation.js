@@ -31,8 +31,8 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
             r = 255;
             g = 255*(rating/0.5);
         }
-        console.log(voteType)
-        console.log(vote)
+        
+        
         return {'background-color':`rgb(${r}, ${g}, 0)`};
     } 
 
@@ -48,12 +48,12 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                   },
                 })
                 .then((requestResponse) => {
-                    console.log(vote)
+                    
                     setVote(1);
                     
                 })
                 .catch((error) => {
-                  console.log(error)
+                  
                   if (error.response.status === 403) {
                     history.push("/");
                     alert("Timed out You need to logout.")
@@ -75,7 +75,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                   },
                 })
                 .then((requestResponse) => {
-                    console.log(vote)
+                    
                     setVote(0);
                     
                 })
