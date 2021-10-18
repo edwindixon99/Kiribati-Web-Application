@@ -6,6 +6,7 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import useForceUpdate from 'use-force-update';
 import { useHistory } from "react-router-dom";
+import Word from "./Word"
 
 
 function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
@@ -30,8 +31,8 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
             r = 255;
             g = 255*(rating/0.5);
         }
-        console.log(voteType)
-        console.log(vote)
+        
+        
         return {'background-color':`rgb(${r}, ${g}, 0)`};
     } 
 
@@ -47,12 +48,12 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                   },
                 })
                 .then((requestResponse) => {
-                    console.log(vote)
+                    
                     setVote(1);
                     
                 })
                 .catch((error) => {
-                  console.log(error)
+                  
                   if (error.response.status === 403) {
                     history.push("/");
                     alert("Timed out You need to logout.")
@@ -74,7 +75,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                   },
                 })
                 .then((requestResponse) => {
-                    console.log(vote)
+                    
                     setVote(0);
                     
                 })
@@ -114,14 +115,14 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                     <div className="row">
                         <div className="col">
                         {(order)
-                        ? <h2>{kiriPhrase}</h2>
-                        : <h2>{engPhrase}</h2>
+                        ? <Word word={kiriPhrase} isKiri={order}/>
+                        : <Word word={engPhrase} isKiri={order}/>
                         }
                         </div>
                         <div className="col">
                         {(order)
-                            ? <h2>{engPhrase}</h2>
-                            : <h2>{kiriPhrase}</h2>
+                            ? <Word word={engPhrase} isKiri={!order}/>
+                            : <Word word={kiriPhrase} isKiri={!order}/>
                         }
                         </div>
                         {sessionToken &&

@@ -3,7 +3,7 @@ import Translation from "./Translation"
 
 function Translations(props) {
 
-    // console.log(props.voteData)
+    // 
     const votetype = function(translationId) {
         return props.voteData[parseInt(translationId)]
         

@@ -14,13 +14,14 @@ function Register() {
     const [newUser, SetNewUser] = useContext(RegisterContext)
     const [username, setUsername] = useState('')
     const [sessionToken, setSessionToken] = useLocalStorage("sessionToken", null)
+    const [error, setError] = useState(null)
     const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     SetNewUser({...newUser, 'username':username})
-    console.log(newUser)
+    
     async function registerUser() {
       axios({
       "method": "POST",
@@ -33,12 +34,15 @@ function Register() {
       })
       .then((requestResponse) => {
         // setAuthed(true)
-        console.log(requestResponse)
+        
+        setError(null)
         // login(newUser.idtoken, setSessionToken)
         history.push('/')
         alert("Account created successfully! you can now Log in")
+        
       })
       .catch((error) => {
+        setError("Username already taken")
         console.log(error)
       })
     }
@@ -67,7 +71,8 @@ function Register() {
     <div class="form-group row">
     <label for="username" class="col-sm-2 col-form-label">Username</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="username" placeholder="Enter Username" pattern="[A-Za-z0-9_]{1,15}" onChange={e=> SetNewUser({...newUser, 'username':e.target.value})}/>
+      <input type="text" class="form-control" id="username" placeholder="Enter Username" pattern="[A-Za-z0-9_]{1,15}" required onChange={e=> SetNewUser({...newUser, 'username':e.target.value})}/>
+      {error && <div style={{color: "red"}}>{error}</div>}
     </div>
   </div>
   
