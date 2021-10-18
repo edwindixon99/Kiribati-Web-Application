@@ -22,14 +22,14 @@ function Authentication() {
 
 
     const responseGoogle = (response) => {
-        console.log("Hello")
-        console.log(response);
-        console.log(response.tokenId)
+        
+        
+        
         let idtoken = response.tokenId
 
 
         async function loginAttempt() {
-          console.log(idtoken)
+          
           axios({
           "method": "POST",
           "url": "https://acme.kiribatitranslate.com/api/v1/login",
@@ -43,15 +43,15 @@ function Authentication() {
           })
           .then((requestResponse) => {
             // setAuthed(true)
-            console.log(requestResponse)
+            
             setSessionToken(requestResponse.data);
             history.push("/");
           })
           .catch((error) => {
             if (error.response.status === 404) {
               
-              console.log(response.dt.Ot)
-              console.log(response.googleId)
+              
+              
               SetNewUser({username:'', 'email':response.dt.Ot, 'idtoken':response.tokenId})
               history.push("/register");
               //
@@ -107,8 +107,6 @@ function Authentication() {
         },
       })
       .then((requestResponse) => {
-        // setAuthed(true)
-        console.log(requestResponse)
         history.push("/");
       })
       .catch((error) => {

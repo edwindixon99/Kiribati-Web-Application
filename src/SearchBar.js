@@ -28,7 +28,7 @@ class SearchBar extends Component {
         if (this.state.query !== '') {
           this.props.handleSearch(this.state.query, true)
         };
-        console.log(this.state)
+        
     }
 
     render() {

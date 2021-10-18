@@ -19,7 +19,7 @@ export async function login(idtoken, setSessionToken) {
     })
     .then((requestResponse) => {
       // setAuthed(true)
-      console.log(requestResponse)
+      
       setSessionToken(requestResponse.data);
     })
     .catch((error) => {
