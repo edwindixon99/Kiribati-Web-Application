@@ -71,7 +71,7 @@ function Register() {
     <div class="form-group row">
     <label for="username" class="col-sm-2 col-form-label">Username</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="username" placeholder="Enter Username" required onChange={e=> SetNewUser({...newUser, 'username':e.target.value})}/>
+      <input type="text" class="form-control" id="username" placeholder="Enter Username" pattern="[A-Za-z0-9_]{1,15}" required onChange={e=> SetNewUser({...newUser, 'username':e.target.value})}/>
       {error && <div style={{color: "red"}}>{error}</div>}
     </div>
   </div>
