@@ -71,7 +71,7 @@ function TranslationPage(props) {
     
 
       console.log(searchParam)
-      if (searchParam) {
+      if (searchParam.length > 0) {
           fetchTranslations()
           
       }
