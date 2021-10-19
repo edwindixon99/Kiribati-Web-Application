@@ -8,7 +8,7 @@ const Navigation = () => (
   <div>
   <Navbar bg="light" variant="light" sticky="top" expand="lg">
 
-    <Navbar.Brand><NavLink to='/' className="nav-link"><img src={logo} width="30" height="30" alt="" />Translations</NavLink></Navbar.Brand>
+    <Navbar.Brand><NavLink to='/' className="nav-link"><img src={logo} width="30" height="30" alt="" />Kiribati Translate</NavLink></Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">

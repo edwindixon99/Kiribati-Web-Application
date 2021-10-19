@@ -68,7 +68,7 @@ function TranslationPage(props) {
   }
 
   useEffect(() => {
-    fetchTranslations()
+    
 
       console.log(searchParam)
       if (searchParam) {
@@ -112,7 +112,10 @@ function TranslationPage(props) {
       <div className="row">
         <Translations lang={props.lang} data={data} voteData={voteData}/>
       </div>
-      {validSearch(searchParam) && <div><br /><FontAwesomeIcon style={{position: 'absolute', left: '50%', color: "#00F"}} className="plus-icon clickable-div" icon={faPlusCircle}  size="4x" onClick={authedAdd}/></div>}
+      {validSearch(searchParam) && 
+        <div>
+        <br /><FontAwesomeIcon style={{position: 'absolute', left: '30%', color: "#00F"}} className="plus-icon clickable-div" icon={faPlusCircle}  size="4x" onClick={authedAdd}/>
+        </div>}
       {/* <Loading isLoading={loading}/> */}
     </div>
   );

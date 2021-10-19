@@ -1,3 +1,14 @@
 .clickable-div {
     cursor: pointer;
 }
+
+.inputborder {
+    border-width:0px;
+    border:none;
+}
+
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

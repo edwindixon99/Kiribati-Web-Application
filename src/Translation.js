@@ -113,20 +113,20 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
 
     return      <div className="Translation container">
                     <div className="row">
-                        <div className="col">
+                        <div className="col-12 col-md-5">
                         {(order)
                         ? <Word word={kiriPhrase} isKiri={order}/>
                         : <Word word={engPhrase} isKiri={order}/>
                         }
                         </div>
-                        <div className="col">
+                        <div className="col-12 col-md-5">
                         {(order)
                             ? <Word word={engPhrase} isKiri={!order}/>
                             : <Word word={kiriPhrase} isKiri={!order}/>
                         }
                         </div>
                         {sessionToken &&
-                        <div className="col-1">
+                        <div className="col-4 col-md-1">
 
                         <div className="row">
                         
@@ -148,10 +148,11 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                         </div>
                         </div>
                         }
-                        <div className="col-1">
+                        <div className="col-6 col-md-1">
                             <div className="box" style={chooseColour(rating)}/>
                         </div>
                     </div>
+                    <br/>
                 </div>;
     
 
