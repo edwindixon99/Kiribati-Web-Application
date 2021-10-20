@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import GoBack from './GoBack'
 import './Style.css'
 
 
@@ -157,6 +158,7 @@ function WordPage() {
 
 
     return <div className="container">
+            <div><GoBack /></div>
             <div className="row">
               <div className="col">
                 <h1>{word}</h1>

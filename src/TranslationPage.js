@@ -7,6 +7,7 @@ import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import GoBack from './GoBack'
 import './Style.css'
 
 
@@ -51,7 +52,8 @@ function TranslationPage(props) {
     setSearchParam(searchTerm)
     setExact(exact)
     // 
-    fetchTranslations()
+    console.log(exact)
+    
   }
 
   const validSearch = (search) => {
@@ -75,7 +77,9 @@ function TranslationPage(props) {
           fetchTranslations()
           
       }
-
+      if (exact) {
+        fetchTranslations()
+      }
       if (sessionToken) {
         axios({
             "method": "GET",
@@ -101,11 +105,14 @@ function TranslationPage(props) {
       
       }
       
-  }, [searchParam, loading, url, sessionToken])
+  }, [searchParam, loading, url, sessionToken, exact])
 
 
   return (
     <div className="container">
+      <div>
+        <GoBack />
+      </div>
       <div className="row">
         <SearchBar handleSearch={onSearch} placeholder={`Enter ${props.lang} Word/Phrase`}/>
       </div>
