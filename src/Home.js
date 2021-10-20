@@ -11,7 +11,7 @@ function Home() {
             <div className="row">
                 <PageCard title="Kiribati" eDesc="Translate Kiribati words and some phrases to English" url="/kiribati" />
                 <PageCard title="English" eDesc="Translate English words and some phrases to Kiribati" url="/english" />
-                <PageCard title="Recent" eDesc="see recently added Translations" url="/recent" />
+                <PageCard title="Recent" eDesc="See recently added translations" url="/recent" />
  
         {/* <PageCard title="Add Translations" eDesc="Contribute to the dictionary by adding translations" url="/" /> */}
         </div>
