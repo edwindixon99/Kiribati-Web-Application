@@ -8,8 +8,6 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import GoBack from './GoBack'
-import LoadingIndicator from './LoadingIndicator'
-import { trackPromise } from 'react-promise-tracker';
 import './Style.css'
 
 
@@ -76,14 +74,14 @@ function TranslationPage(props) {
 
       console.log(searchParam)
       if (searchParam.length > 0) {
-        trackPromise(fetchTranslations())
+        fetchTranslations()
           
       }
       if (exact) {
-        trackPromise(fetchTranslations())
+        fetchTranslations()
       }
       if (sessionToken) {
-        trackPromise(axios({
+        axios({
             "method": "GET",
             "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
             headers: {
@@ -103,7 +101,7 @@ function TranslationPage(props) {
                 history.push("/");
                 alert("Timed out You need to logout.")
               }
-            }))
+            })
       
       }
       
@@ -123,7 +121,6 @@ function TranslationPage(props) {
         <Translations lang={props.lang} data={data} voteData={voteData}/>
       </div>
       <div className="row">
-      <LoadingIndicator />
       {/* <ReactLoading type={"spokes"} color={"#0000ff"} height={64} width={64} /> */}
       </div>
       {validSearch(searchParam) && 

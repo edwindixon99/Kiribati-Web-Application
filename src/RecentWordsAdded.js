@@ -4,8 +4,6 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
-import { trackPromise } from 'react-promise-tracker';
-import LoadingIndicator from './LoadingIndicator'
 import GoBack from './GoBack'
 import './Style.css'
 
@@ -56,10 +54,10 @@ function RecentWordsAdded() {
 
     useEffect(() => {
         
-      trackPromise(fetchTranslations())
+      fetchTranslations()
     
         if (sessionToken) {
-          trackPromise(axios({
+          axios({
                 "method": "GET",
                 "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
                 headers: {
@@ -79,7 +77,7 @@ function RecentWordsAdded() {
                     history.push("/");
                     alert("Timed out You need to logout.")
                   }
-                }))
+                })
           
           }
           
@@ -112,7 +110,6 @@ function RecentWordsAdded() {
                 <Translations lang={lang} data={data} voteData={voteData}/>
             </div>
             <div className="row">
-              <LoadingIndicator />
             </div>
         </div>
     
