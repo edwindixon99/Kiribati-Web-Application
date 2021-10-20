@@ -22,6 +22,7 @@ function TranslationPage(props) {
   const [sessionToken,] = useLocalStorage("sessionToken", null)
   const [voteData, setVoteData] = useState({});
   const history = useHistory();
+  const [errors, setErrors] = useState(null)
 
   let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
 
@@ -40,12 +41,19 @@ function TranslationPage(props) {
     },
     })
     .then((response) => {
+      if (response.data.length === 0) {
+        setErrors([`No results found for '${searchParam}'`, `E aki reke te taeka anne '${searchParam}'`])
+      } else {
+        setErrors(null)
+      }
     setData(response.data)
     setLoading(false)
     })
     .catch((error) => {
     console.log(error)
     })
+
+    
     
   }
 
@@ -73,7 +81,9 @@ function TranslationPage(props) {
 
   useEffect(() => {
     
-
+      if (searchParam.length < 2) {
+        setErrors(null);
+      }
       console.log(searchParam)
       if (searchParam.length > 0) {
         trackPromise(fetchTranslations())
@@ -121,6 +131,7 @@ function TranslationPage(props) {
       
       <div className="row">
         <Translations lang={props.lang} data={data} voteData={voteData}/>
+        {errors && errors.map(error => <h2>{error}</h2>)}
       </div>
       <div className="row">
       <LoadingIndicator />
