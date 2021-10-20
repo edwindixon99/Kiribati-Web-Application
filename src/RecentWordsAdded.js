@@ -4,7 +4,8 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
-import { useParams } from 'react-router-dom';
+import { trackPromise } from 'react-promise-tracker';
+import LoadingIndicator from './LoadingIndicator'
 import GoBack from './GoBack'
 import './Style.css'
 
@@ -32,6 +33,7 @@ function RecentWordsAdded() {
     
     
     async function fetchTranslations() {
+      await new Promise(resolve => setTimeout(resolve, 10000))
       axios({
       "method": "GET",
       "url": url,
@@ -119,10 +121,10 @@ function RecentWordsAdded() {
       //   history.goBack()
       // }
         
-        fetchTranslations()
+      trackPromise(fetchTranslations())
     
         if (sessionToken) {
-            axios({
+          trackPromise(axios({
                 "method": "GET",
                 "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
                 headers: {
@@ -142,7 +144,7 @@ function RecentWordsAdded() {
                     history.push("/");
                     alert("Timed out You need to logout.")
                   }
-                })
+                }))
           
           }
           
@@ -161,7 +163,7 @@ function RecentWordsAdded() {
             <div><GoBack /></div>
             <div className="row">
               <div className="col">
-                <h1>Recent Translations</h1>
+                <h1>Recently Added Translations</h1>
               </div>
               {/* <div className="col-12 col-md-6">
                 {addSelected && sessionToken && <div className="row">
@@ -175,10 +177,23 @@ function RecentWordsAdded() {
                 
               </div> */}
             </div>
+            <div style={{"text-decoration": "underline", "color":"grey"}}className="container">
+              <div className="row">
+                <div className="col-12 col-md-5">
+                  <h2>English</h2>
+                </div>
+                <div className="col-12 col-md-5">
+                  <h2>Kiribati</h2>
+                </div>
+            </div>
+            </div>
             <br />
             <br />
             <div className="row">
                 <Translations lang={lang} data={data} voteData={voteData}/>
+            </div>
+            <div className="row">
+              <LoadingIndicator />
             </div>
         </div>
     
