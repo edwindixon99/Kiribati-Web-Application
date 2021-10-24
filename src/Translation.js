@@ -9,16 +9,18 @@ import { useHistory } from "react-router-dom";
 import Word from "./Word"
 
 
-function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
+function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, createdType}) {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [vote, setVote] = useState(voteType);
+    const [created, setCreated] = useState(createdType);
     const forceUpdate = useForceUpdate();
     const history = useHistory();
 
 
     React.useEffect(() => {
         setVote(voteType);
-    }, [voteType])
+        setCreated(createdType)
+    }, [voteType, createdType])
 
 
     function chooseColour(rating) {
@@ -133,6 +135,11 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
                         <div className="col">
                         {
                         vote === 1?
+                        <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg" onClick={removevote}/>
+                        : <FontAwesomeIcon icon={faThumbsUp}  size="lg" onClick={upvote}/>
+                        }
+                        {
+                        created?
                         <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg" onClick={removevote}/>
                         : <FontAwesomeIcon icon={faThumbsUp}  size="lg" onClick={upvote}/>
                         }

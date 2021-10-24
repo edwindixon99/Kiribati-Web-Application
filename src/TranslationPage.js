@@ -19,6 +19,7 @@ function TranslationPage(props) {
   const [loading, setLoading] = useState(true)
   const [sessionToken,] = useLocalStorage("sessionToken", null)
   const [voteData, setVoteData] = useState({});
+  const [createData, setCreateData] = useState({});
   const history = useHistory();
 
   let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
@@ -102,6 +103,28 @@ function TranslationPage(props) {
                 alert("Timed out You need to logout.")
               }
             })
+
+          axios({
+            "method": "GET",
+            "url": `https://acme.kiribatitranslate.com/api/v1/translations/`,
+            headers: {
+              'Access-Control-Allow-Origin' : '*',
+              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+              'x-authorization':sessionToken
+              },
+            })
+            .then((requestResponse) => {
+
+            setCreateData(requestResponse.data)
+            })
+            .catch((error) => {
+        
+              
+              if (error.response.status === 403) {
+                history.push("/");
+                alert("Timed out You need to logout.")
+              }
+            })
       
       }
       
@@ -118,7 +141,7 @@ function TranslationPage(props) {
       </div>
       
       <div className="row">
-        <Translations lang={props.lang} data={data} voteData={voteData}/>
+        <Translations lang={props.lang} data={data} voteData={voteData} createData={createData}/>
       </div>
       <div className="row">
       {/* <ReactLoading type={"spokes"} color={"#0000ff"} height={64} width={64} /> */}
