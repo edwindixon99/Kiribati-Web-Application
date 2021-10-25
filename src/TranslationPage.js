@@ -7,8 +7,10 @@ import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import UsersInformation from './UsersInformation'
 import GoBack from './GoBack'
 import './Style.css'
+import {fetchTranslations, getUsersVotes, getUsersTranslations } from './api'
 
 
 
@@ -25,28 +27,28 @@ function TranslationPage(props) {
   let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
 
 
-  async function fetchTranslations() {
-    axios({
-    "method": "GET",
-    "url": url,
-    headers: {
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      },
-    "params": {
-        "q": searchParam,
-        "exact":exact
-    },
-    })
-    .then((response) => {
-    setData(response.data)
-    setLoading(false)
-    })
-    .catch((error) => {
-    console.log(error)
-    })
+  // async function fetchTranslations() {
+  //   axios({
+  //   "method": "GET",
+  //   "url": url,
+  //   headers: {
+  //     'Access-Control-Allow-Origin' : '*',
+  //     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+  //     },
+  //   "params": {
+  //       "q": searchParam,
+  //       "exact":exact
+  //   },
+  //   })
+  //   .then((response) => {
+  //   setData(response.data)
+  //   setLoading(false)
+  //   })
+  //   .catch((error) => {
+  //   console.log(error)
+  //   })
     
-  }
+  // }
 
   const onSearch = (searchTerm, exact) => {
     // 
@@ -71,62 +73,63 @@ function TranslationPage(props) {
   }
 
   useEffect(() => {
-    
+    getUsersVotes(setVoteData, history, sessionToken)
+    getUsersTranslations(setCreateData, history, sessionToken)
 
       console.log(searchParam)
       if (searchParam.length > 0) {
-        fetchTranslations()
+        fetchTranslations(url, searchParam, setData, exact)
           
       }
       if (exact) {
-        fetchTranslations()
+        fetchTranslations(url, searchParam, setData, exact)
       }
-      if (sessionToken) {
-        axios({
-            "method": "GET",
-            "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
-            headers: {
-              'Access-Control-Allow-Origin' : '*',
-              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-              'x-authorization':sessionToken
-              },
-            })
-            .then((requestResponse) => {
+      // if (sessionToken) {
+      //   axios({
+      //       "method": "GET",
+      //       "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
+      //       headers: {
+      //         'Access-Control-Allow-Origin' : '*',
+      //         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      //         'x-authorization':sessionToken
+      //         },
+      //       })
+      //       .then((requestResponse) => {
 
-            setVoteData(requestResponse.data)
-            })
-            .catch((error) => {
+      //       setVoteData(requestResponse.data)
+      //       })
+      //       .catch((error) => {
         
               
-              if (error.response.status === 403) {
-                history.push("/");
-                alert("Timed out You need to logout.")
-              }
-            })
+      //         if (error.response.status === 403) {
+      //           history.push("/");
+      //           alert("Timed out You need to logout.")
+      //         }
+      //       })
 
-          axios({
-            "method": "GET",
-            "url": `https://acme.kiribatitranslate.com/api/v1/translations/`,
-            headers: {
-              'Access-Control-Allow-Origin' : '*',
-              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-              'x-authorization':sessionToken
-              },
-            })
-            .then((requestResponse) => {
-
-            setCreateData(requestResponse.data)
-            })
-            .catch((error) => {
+      //     axios({
+      //       "method": "GET",
+      //       "url": `https://acme.kiribatitranslate.com/api/v1/translations/`,
+      //       headers: {
+      //         'Access-Control-Allow-Origin' : '*',
+      //         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      //         'x-authorization':sessionToken
+      //         },
+      //       })
+      //       .then((requestResponse) => {
+      //         console.log(requestResponse.data)
+      //       setCreateData(requestResponse.data)
+      //       })
+      //       .catch((error) => {
         
               
-              if (error.response.status === 403) {
-                history.push("/");
-                alert("Timed out You need to logout.")
-              }
-            })
+      //         if (error.response.status === 403) {
+      //           history.push("/");
+      //           alert("Timed out You need to logout.")
+      //         }
+      //       })
       
-      }
+      // }
       
   }, [searchParam, loading, url, sessionToken, exact])
 
