@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import UsersInformation from './UsersInformation'
 import GoBack from './GoBack'
 import './Style.css'
-import {fetchTranslations, getUsersVotes, getUsersTranslations } from './api'
+import {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo } from './api'
 
 
 
@@ -25,6 +25,7 @@ function WordPage() {
     const [newWord, setNewWord] = useState("")
     const [error, setError] = useState(null)
     const [lplaceholder, setLPlaceholder] = useState('')
+    const [fetchError, setFetchError] = useState(null)
     console.log(lang)
 
     
@@ -70,9 +71,10 @@ function WordPage() {
           setError(null)
           setAddSelected(false)
           setNewWord("")
-          getUsersVotes(setVoteData, history, sessionToken)
-          getUsersTranslations(setCreateData, history, sessionToken)
-          fetchTranslations(url, word, setData)
+          getUserInfo(setVoteData, setCreateData, history, sessionToken)
+          // getUsersVotes(setVoteData, history, sessionToken)
+          // getUsersTranslations(setCreateData, history, sessionToken)
+          fetchTranslations(url, word, setData, setFetchError)
           
 
         
@@ -106,7 +108,7 @@ function WordPage() {
       //   history.goBack()
       // }
         if (word) {
-            fetchTranslations(url, word, setData)
+            fetchTranslations(url, word, setData, setFetchError)
             
         }
         // if (sessionToken) {
@@ -167,7 +169,7 @@ function WordPage() {
             <br />
             <br />
             <div className="row">
-                <Translations lang={lang} data={data} voteData={voteData} createData={createData} />
+                {(fetchError)? fetchError.map((e, i) => <div><h2>{e}</h2></div>) : <Translations lang={lang} data={data} voteData={voteData} createData={createData} />}
             </div>
         </div>
     

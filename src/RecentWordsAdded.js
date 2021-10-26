@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import GoBack from './GoBack'
 import UsersInformation from './UsersInformation'
 import './Style.css'
-import {fetchTranslations, getUsersVotes, getUsersTranslations } from './api'
+import {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo } from './api'
 
 
 
@@ -56,8 +56,9 @@ function RecentWordsAdded() {
   }
 
     useEffect(() => {
-      getUsersVotes(setVoteData, history, sessionToken)
-      getUsersTranslations(setCreateData, history, sessionToken)
+      // getUsersVotes(setVoteData, history, sessionToken)
+      // getUsersTranslations(setCreateData, history, sessionToken)
+      getUserInfo(setVoteData, setCreateData, history, sessionToken)
       fetchTranslations()
     
         // if (sessionToken) {

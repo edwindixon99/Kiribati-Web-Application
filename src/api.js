@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-async function fetchTranslations(url, word, setData, exact = true) {
+async function fetchTranslations(url, word, setData, exact = true, setError) {
     axios({
     "method": "GET",
     "url": url,
@@ -13,14 +13,28 @@ async function fetchTranslations(url, word, setData, exact = true) {
         "exact":exact
     },
     })
-    .then((response) => {
-    setData(response.data)
+    .then((requestResponse) => {
+
+      setData(requestResponse.data)
+      setError(null)
     })
     .catch((error) => {
-    console.log(error)
+
+      
+      if (error.response.status === 404) {
+        setData([])
+        setError([`no results found for '${word}'`, `e aki reke te taeka anne '${word}'`])
+      }
     })
-    
-}
+  }
+
+
+
+// if (error.response.status === 404) {
+//   setError([`no results found for '${word}'`, `e aki reke te taeka anne '${word}'`])
+// } else {
+//   setError(["Something went wrong with the server!"])
+// }
 
 
 async function getUsersVotes(setVoteData, history, sessionToken) {
@@ -72,6 +86,32 @@ async function getUsersTranslations(setCreateData, history, sessionToken) {
     
     }
 
-    
 
-export {fetchTranslations, getUsersVotes, getUsersTranslations }
+  async function getUserInfo(setVoteData, setCreateData, history, sessionToken) {
+    axios({
+      "method": "GET",
+      "url": `https://acme.kiribatitranslate.com/api/v1/user/info `,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'x-authorization':sessionToken
+        },
+      })
+      .then((requestResponse) => {
+        console.log(requestResponse)
+        setCreateData(requestResponse.data.translations)
+        setVoteData(requestResponse.data.votes)
+      })
+      .catch((error) => {
+  
+        
+        if (error.response.status === 403) {
+          history.push("/");
+          alert("Timed out You need to logout.")
+        }
+      })
+
+}
+  
+
+export {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo }

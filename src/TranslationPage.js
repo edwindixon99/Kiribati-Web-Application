@@ -10,7 +10,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import UsersInformation from './UsersInformation'
 import GoBack from './GoBack'
 import './Style.css'
-import {fetchTranslations, getUsersVotes, getUsersTranslations } from './api'
+import {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo } from './api'
 
 
 
@@ -23,6 +23,7 @@ function TranslationPage(props) {
   const [voteData, setVoteData] = useState({});
   const [createData, setCreateData] = useState({});
   const history = useHistory();
+  const [error, setError] = useState(null)
 
   let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
 
@@ -73,16 +74,17 @@ function TranslationPage(props) {
   }
 
   useEffect(() => {
-    getUsersVotes(setVoteData, history, sessionToken)
-    getUsersTranslations(setCreateData, history, sessionToken)
+    // getUsersVotes(setVoteData, history, sessionToken)
+    // getUsersTranslations(setCreateData, history, sessionToken)
+    getUserInfo(setVoteData, setCreateData, history, sessionToken)
 
       console.log(searchParam)
       if (searchParam.length > 0) {
-        fetchTranslations(url, searchParam, setData, exact)
+        fetchTranslations(url, searchParam, setData, exact, setError)
           
       }
       if (exact) {
-        fetchTranslations(url, searchParam, setData, exact)
+        fetchTranslations(url, searchParam, setData, exact, setError)
       }
       // if (sessionToken) {
       //   axios({
@@ -144,7 +146,8 @@ function TranslationPage(props) {
       </div>
       
       <div className="row">
-        <Translations lang={props.lang} data={data} voteData={voteData} createData={createData}/>
+        {(data.length > 0) && <Translations lang={props.lang} data={data} voteData={voteData} createData={createData}/>}
+        {error && error.map((e, i) => <div><h2>{e}</h2></div>)}
       </div>
       <div className="row">
       {/* <ReactLoading type={"spokes"} color={"#0000ff"} height={64} width={64} /> */}
