@@ -7,15 +7,14 @@ import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import GoBack from './GoBack'
 import './Style.css'
-import AddWordComponent from './AddWordComponent'
 import {fetchTranslations, getUserInfo } from './api'
 
 
 
 
-function WordPage() {
+function Requested() {
     const history = useHistory();
-    const { lang, word } = useParams();
+    // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
@@ -117,7 +116,22 @@ function WordPage() {
 
     return <div className="container">
             <div><GoBack /></div>
-              <AddWordComponent word={word} lang={lang} />
+            <div className="row">
+              <div className="col">
+                <h1>{word}</h1>
+              </div>
+              <div className="col-12 col-md-6">
+                {addSelected && sessionToken && <div className="row">
+                  <form className="form-inline">
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+                  {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
+                  <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
+                  </form>
+                  </div>}
+                {!addSelected && sessionToken && <button onClick={() => setAddSelected(true)} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
+                
+              </div>
+            </div>
             <br />
             <br />
             <div className="row">
@@ -128,4 +142,4 @@ function WordPage() {
 
   }
   
-  export default WordPage;
+  export default Requested;
