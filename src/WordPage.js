@@ -5,8 +5,10 @@ import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import UsersInformation from './UsersInformation'
 import GoBack from './GoBack'
 import './Style.css'
+import {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo } from './api'
 
 
 
@@ -18,10 +20,12 @@ function WordPage() {
     
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
+    const [createData, setCreateData] = useState({});
     const [addSelected, setAddSelected] = useState(false);
     const [newWord, setNewWord] = useState("")
     const [error, setError] = useState(null)
     const [lplaceholder, setLPlaceholder] = useState('')
+    const [fetchError, setFetchError] = useState(null)
     console.log(lang)
 
     
@@ -30,27 +34,7 @@ function WordPage() {
     
     
     
-    async function fetchTranslations() {
-      axios({
-      "method": "GET",
-      "url": url,
-      headers: {
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        },
-      "params": {
-          "q": word,
-          "exact":true
-      },
-      })
-      .then((response) => {
-      setData(response.data)
-      })
-      .catch((error) => {
-      console.log(error)
-      })
-      
-  }
+
 
     const otherLang = function(language) {
       
@@ -87,7 +71,11 @@ function WordPage() {
           setError(null)
           setAddSelected(false)
           setNewWord("")
-          fetchTranslations()
+          getUserInfo(setVoteData, setCreateData, history, sessionToken)
+          // getUsersVotes(setVoteData, history, sessionToken)
+          // getUsersTranslations(setCreateData, history, sessionToken)
+          fetchTranslations(url, word, setData, setFetchError)
+          
 
         
         })
@@ -114,37 +102,42 @@ function WordPage() {
 
     useEffect(() => {
       getPlaceholder(lang)
+      // getUsersVotes(setVoteData, history, sessionToken)
+      // getUsersTranslations(setCreateData, history, sessionToken)
+      if (sessionToken) {
+        getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
       // if (!/^[a-zA-Z0-9.!?_\\-]+( [a-zA-Z0-9.!?_\\-]+)*$/.test(word)) {
       //   history.goBack()
       // }
         if (word) {
-            fetchTranslations()
+            fetchTranslations(url, word, setData, setFetchError)
             
         }
-        if (sessionToken) {
-            axios({
-                "method": "GET",
-                "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
-                headers: {
-                  'Access-Control-Allow-Origin' : '*',
-                  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                  'x-authorization':sessionToken
-                  },
-                })
-                .then((requestResponse) => {
+        // if (sessionToken) {
+        //     axios({
+        //         "method": "GET",
+        //         "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
+        //         headers: {
+        //           'Access-Control-Allow-Origin' : '*',
+        //           'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        //           'x-authorization':sessionToken
+        //           },
+        //         })
+        //         .then((requestResponse) => {
     
-                setVoteData(requestResponse.data)
-                })
-                .catch((error) => {
+        //         setVoteData(requestResponse.data)
+        //         })
+        //         .catch((error) => {
             
-                  console.log(error)
-                  if (error.response.status === 403) {
-                    history.push("/");
-                    alert("Timed out You need to logout.")
-                  }
-                })
+        //           console.log(error)
+        //           if (error.response.status === 403) {
+        //             history.push("/");
+        //             alert("Timed out You need to logout.")
+        //           }
+        //         })
           
-          }
+        //   }
           
           if (addSelected) {
             setAddSelected(false)
@@ -158,6 +151,7 @@ function WordPage() {
 
 
     return <div className="container">
+          {/* <UsersInformation setVoteData={setVoteData} setCreateData={setCreateData} /> */}
             <div><GoBack /></div>
             <div className="row">
               <div className="col">
@@ -166,7 +160,7 @@ function WordPage() {
               <div className="col-12 col-md-6">
                 {addSelected && sessionToken && <div className="row">
                   <form className="form-inline">
-                  <input value={newWord} onChange={e => setNewWord(e.target.value)} style={borederless} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
                   {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
                   <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
                   </form>
@@ -178,7 +172,7 @@ function WordPage() {
             <br />
             <br />
             <div className="row">
-                <Translations lang={lang} data={data} voteData={voteData}/>
+                {(fetchError)? fetchError.map((e, i) => <div><h2>{e}</h2></div>) : <Translations lang={lang} data={data} voteData={voteData} createData={createData} />}
             </div>
         </div>
     

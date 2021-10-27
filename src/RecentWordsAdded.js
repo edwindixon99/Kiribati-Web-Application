@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import GoBack from './GoBack'
+import UsersInformation from './UsersInformation'
 import './Style.css'
+import {fetchTranslations, getUsersVotes, getUsersTranslations, getUserInfo } from './api'
 
 
 
@@ -17,6 +19,7 @@ function RecentWordsAdded() {
     
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
+    const [createData, setCreateData] = useState({});
     // const [addSelected, setAddSelected] = useState(false);
     // const [newWord, setNewWord] = useState("")
     // const [error, setError] = useState(null)
@@ -53,33 +56,59 @@ function RecentWordsAdded() {
   }
 
     useEffect(() => {
-        
+      // getUsersVotes(setVoteData, history, sessionToken)
+      // getUsersTranslations(setCreateData, history, sessionToken)
+      if (sessionToken) {
+      getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
       fetchTranslations()
     
-        if (sessionToken) {
-          axios({
-                "method": "GET",
-                "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
-                headers: {
-                  'Access-Control-Allow-Origin' : '*',
-                  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                  'x-authorization':sessionToken
-                  },
-                })
-                .then((requestResponse) => {
+        // if (sessionToken) {
+        //   axios({
+        //         "method": "GET",
+        //         "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
+        //         headers: {
+        //           'Access-Control-Allow-Origin' : '*',
+        //           'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        //           'x-authorization':sessionToken
+        //           },
+        //         })
+        //         .then((requestResponse) => {
     
-                setVoteData(requestResponse.data)
-                })
-                .catch((error) => {
+        //         setVoteData(requestResponse.data)
+        //         })
+        //         .catch((error) => {
             
-                  console.log(error)
-                  if (error.response.status === 403) {
-                    history.push("/");
-                    alert("Timed out You need to logout.")
-                  }
-                })
+        //           console.log(error)
+        //           if (error.response.status === 403) {
+        //             history.push("/");
+        //             alert("Timed out You need to logout.")
+        //           }
+        //         })
+
+        //     axios({
+        //       "method": "GET",
+        //       "url": `https://acme.kiribatitranslate.com/api/v1/translations/`,
+        //       headers: {
+        //         'Access-Control-Allow-Origin' : '*',
+        //         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        //         'x-authorization':sessionToken
+        //         },
+        //       })
+        //       .then((requestResponse) => {
+        //         console.log(requestResponse.data)
+        //       setCreateData(requestResponse.data)
+        //       })
+        //       .catch((error) => {
           
-          }
+                
+        //         if (error.response.status === 403) {
+        //           history.push("/");
+        //           alert("Timed out You need to logout.")
+        //         }
+        //       })                
+      
+        //   }
           
       }, [url, sessionToken])
     
@@ -107,7 +136,7 @@ function RecentWordsAdded() {
             <br />
             <br />
             <div className="row">
-                <Translations lang={lang} data={data} voteData={voteData}/>
+                <Translations lang={lang} data={data} voteData={voteData} createData={createData} />
             </div>
             <div className="row">
             </div>
