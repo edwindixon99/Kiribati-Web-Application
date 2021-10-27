@@ -16,7 +16,7 @@ const Navigation = () => (
         <NavLink to='/english' className="nav-link">English</NavLink>
         <NavLink to='/recent' className="nav-link">Recent</NavLink>
       </Nav>
-    <Authentication />
+    {/* <Authentication /> */}
     </Navbar.Collapse>
 
   </Navbar>
