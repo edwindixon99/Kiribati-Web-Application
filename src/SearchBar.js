@@ -27,7 +27,6 @@ class SearchBar extends Component {
 
     onSubmitTask = (e) => {
         e.preventDefault();
-        console.log("clicked")
         if (this.state.query !== '') {
           this.props.handleSearch(this.state.query, true)
         };

@@ -28,15 +28,6 @@ async function fetchTranslations(url, word, setData, setError,  exact = true) {
     })
   }
 
-
-
-// if (error.response.status === 404) {
-//   setError([`no results found for '${word}'`, `e aki reke te taeka anne '${word}'`])
-// } else {
-//   setError(["Something went wrong with the server!"])
-// }
-
-
 async function getUsersVotes(setVoteData, history, sessionToken) {
     axios({
         "method": "GET",
@@ -72,7 +63,7 @@ async function getUsersTranslations(setCreateData, history, sessionToken) {
             },
           })
           .then((requestResponse) => {
-            console.log(requestResponse)
+            
             setCreateData(requestResponse.data)
           })
           .catch((error) => {
@@ -98,7 +89,6 @@ async function getUsersTranslations(setCreateData, history, sessionToken) {
         },
       })
       .then((requestResponse) => {
-        console.log(requestResponse)
         setCreateData(requestResponse.data.translations)
         setVoteData(requestResponse.data.votes)
       })

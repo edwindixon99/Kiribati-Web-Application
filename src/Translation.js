@@ -8,7 +8,6 @@ import useForceUpdate from 'use-force-update';
 import { useHistory } from "react-router-dom";
 import Word from "./Word"
 import './Style.css'
-import TranslationDeleteModal from './TranslationDeleteModal'
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button"
 
@@ -25,9 +24,6 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, create
 
     React.useEffect(() => {
         setVote(voteType);
-        // setCreated(createdType)
-        // // console.log(createdType)
-        // console.log(created)
     }, [voteType])
 
     function removeTranslation(){
@@ -43,8 +39,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, create
                     },
                 })
                 .then(() => {
-                    console.log("complete")
-                    
+
                 })
                 .catch((error) => {
                     console.log(error)
@@ -191,15 +186,10 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, create
                                 </div>
                                 <div className="col">
                                     {created && <FontAwesomeIcon className="clickable-div" icon={faTrash}  size="lg" onClick={() => setShowDeleteModal(true)}/>}
-                                    {/* {showDeleteModal && <TranslationDeleteModal showModal={setShowDeleteModal} removeTranslation={removeTranslation}/>} */}
                                 </div>
                             </div>
                             
-                            {/* {created && <FontAwesomeIcon className="INSERTCLICKABLEDIV" icon={faTrash}  size="lg" onClick={downvote}/>} */}
                         </div>
-                        {/* <div className="col-3 col-xl-1">
-                            
-                        </div> */}
                     </div>
                     <br/>
 
@@ -208,7 +198,6 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, create
                         <Modal.Title>Delete Translation</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>are you sure you want to delete translation?  <p>{engPhrase} : {kiriPhrase}</p></Modal.Body>
-                        {/* <Modal.Body></Modal.Body> */}
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close

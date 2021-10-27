@@ -18,8 +18,6 @@ function Authentication() {
   const [sessionToken, setSessionToken] = useLocalStorage("sessionToken", null)
   const [newUser, SetNewUser] = useContext(RegisterContext)
 
-  // const [authed, setAuthed] = useState(false)
-
 
     const responseGoogle = (response) => {
         
@@ -42,7 +40,6 @@ function Authentication() {
           }
           })
           .then((requestResponse) => {
-            // setAuthed(true)
             
             setSessionToken(requestResponse.data);
             history.push("/");
@@ -50,9 +47,7 @@ function Authentication() {
           .catch((error) => {
             if (error.response.status === 404) {
               
-              
-              
-              SetNewUser({username:'', 'email':response.dt.Ot, 'idtoken':response.tokenId})
+              SetNewUser({username:'', 'email':response.profileObj.email, 'idtoken':response.tokenId})
               history.push("/register");
               //
             }
@@ -65,35 +60,9 @@ function Authentication() {
       loginAttempt()
 
       }
-    //   async function logoutAttempt() {
-    //     axios({
-    //     "method": "POST",
-    //     "url": "https://acme.kiribatitranslate.com/api/v1/logout",
-    //     headers: {
-    //       'Access-Control-Allow-Origin' : '*',
-    //       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    //       },
-    //     data: {
-    //         "idtoken": idtoken
-    //     }
-    //     })
-    //     .then((response) => {
-    //       setAuthed(true)
-    //       console.log(response)
-    //     })
-    //     .catch((error) => {
-    //       if (error.response.status == 404) {
-    //         history.push("/register");
-    //       }
-    //       console.log(error)
-    //     })
-        
-      
-        
-    // }
+
 
   const logout = () => {
-    // setAuthed(false)
     setSessionToken(null)
 
     async function logoutAttempt() {
