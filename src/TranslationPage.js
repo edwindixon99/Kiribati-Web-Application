@@ -76,15 +76,17 @@ function TranslationPage(props) {
   useEffect(() => {
     // getUsersVotes(setVoteData, history, sessionToken)
     // getUsersTranslations(setCreateData, history, sessionToken)
-    getUserInfo(setVoteData, setCreateData, history, sessionToken)
+    if (sessionToken) {
+      getUserInfo(setVoteData, setCreateData, history, sessionToken)
+    }
 
       console.log(searchParam)
       if (searchParam.length > 0) {
-        fetchTranslations(url, searchParam, setData, exact, setError)
+        fetchTranslations(url, searchParam, setData, setError, exact)
           
       }
       if (exact) {
-        fetchTranslations(url, searchParam, setData, exact, setError)
+        fetchTranslations(url, searchParam, setData, setError, exact)
       }
       // if (sessionToken) {
       //   axios({

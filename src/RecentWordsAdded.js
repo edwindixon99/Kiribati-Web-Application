@@ -58,7 +58,9 @@ function RecentWordsAdded() {
     useEffect(() => {
       // getUsersVotes(setVoteData, history, sessionToken)
       // getUsersTranslations(setCreateData, history, sessionToken)
+      if (sessionToken) {
       getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
       fetchTranslations()
     
         // if (sessionToken) {

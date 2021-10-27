@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-async function fetchTranslations(url, word, setData, exact = true, setError) {
+async function fetchTranslations(url, word, setData, setError,  exact = true) {
     axios({
     "method": "GET",
     "url": url,

@@ -207,7 +207,7 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, create
                         <Modal.Header closeButton>
                         <Modal.Title>Delete Translation</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>are you sure you want to delete this translation?</Modal.Body>
+                        <Modal.Body>are you sure you want to delete translation?  <p>{engPhrase} : {kiriPhrase}</p></Modal.Body>
                         {/* <Modal.Body></Modal.Body> */}
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>

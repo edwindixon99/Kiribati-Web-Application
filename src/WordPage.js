@@ -102,8 +102,11 @@ function WordPage() {
 
     useEffect(() => {
       getPlaceholder(lang)
-      getUsersVotes(setVoteData, history, sessionToken)
-      getUsersTranslations(setCreateData, history, sessionToken)
+      // getUsersVotes(setVoteData, history, sessionToken)
+      // getUsersTranslations(setCreateData, history, sessionToken)
+      if (sessionToken) {
+        getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
       // if (!/^[a-zA-Z0-9.!?_\\-]+( [a-zA-Z0-9.!?_\\-]+)*$/.test(word)) {
       //   history.goBack()
       // }
