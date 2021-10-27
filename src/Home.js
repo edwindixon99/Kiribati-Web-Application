@@ -14,7 +14,6 @@ function Home() {
                 <PageCard title="Kiribati" eDesc="Translate Kiribati words and some phrases to English" kDesc="Raira taeka ni Kiribati nakon taetae ni Imatang" url="/kiribati" />
                 <PageCard title="English" eDesc="Translate English words and some phrases to Kiribati" kDesc="Raira taeka ni Imatang nakon taetae ni Kiribati" url="/english" />
                 <PageCard title="Recent" eDesc="See recently added translations" url="/recent" />
-                <PageCard title="Requested Words" eDesc="See the words most requested to be translated" url="/requested" />
         </div>
         </div>
     </div>
