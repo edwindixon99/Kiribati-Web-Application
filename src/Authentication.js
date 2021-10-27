@@ -52,7 +52,7 @@ function Authentication() {
               
               
               
-              SetNewUser({username:'', 'email':response.dt.Ot, 'idtoken':response.tokenId})
+              SetNewUser({username:'', 'email':response.profileObj.email, 'idtoken':response.tokenId})
               history.push("/register");
               //
             }
