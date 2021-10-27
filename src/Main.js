@@ -4,6 +4,7 @@ import props from 'prop-types';
 import Register from './Register'
 import Home from './Home'
 import WordPage from './WordPage';
+import RecentWordsAdded from './RecentWordsAdded'
 
 
 
@@ -14,6 +15,7 @@ const Main = () => (
       <Route exact path='/english' component={() => <TranslationPage {...props} lang={'english'} />} />
       <Route exact path='/register' component={Register} />
       <Route exact path='/:lang/:word' component={WordPage} />
+      <Route exact path='/recent' component={RecentWordsAdded} />
       {/* <Route exact path='/register' component={Register}></Route> */}
     </Switch>
   );

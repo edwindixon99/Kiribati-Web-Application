@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import GoBack from './GoBack'
+import './Style.css'
 
 
 
@@ -151,18 +153,20 @@ function WordPage() {
           setError(null)
       }, [word, url, sessionToken])
     
-  
+      
+    let borederless = {"box-shadow":"none", "border":"none"}
 
 
     return <div className="container">
+            <div><GoBack /></div>
             <div className="row">
               <div className="col">
                 <h1>{word}</h1>
               </div>
-              <div className="col">
+              <div className="col-12 col-md-6">
                 {addSelected && sessionToken && <div className="row">
                   <form className="form-inline">
-                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} style={borederless} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
                   {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
                   <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
                   </form>

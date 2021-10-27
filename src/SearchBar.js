@@ -1,4 +1,6 @@
 import { Component } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 class SearchBar extends Component {
 
@@ -25,6 +27,7 @@ class SearchBar extends Component {
 
     onSubmitTask = (e) => {
         e.preventDefault();
+        console.log("clicked")
         if (this.state.query !== '') {
           this.props.handleSearch(this.state.query, true)
         };
@@ -53,11 +56,11 @@ class SearchBar extends Component {
                     autocomplete="off"
                   />
                 </div>
-                <div className="col-2">
+                <div className="col-1">
                   <button 
-                  onSubmit={this.onSubmitTask} 
-                  type="submit" 
-                  className="btn btn-primary">Search</button>
+                  type="submit"
+                  style={{"font-size": "1.25rem"}}
+                  className="btn btn-primary"><FontAwesomeIcon icon={faSearch}  size="lg"></FontAwesomeIcon></button>
                 </div>
               </div>
               </form>
@@ -65,7 +68,7 @@ class SearchBar extends Component {
               
             </div>
             
-            
+            <br/>
           </div>
         );
       }
