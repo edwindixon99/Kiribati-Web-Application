@@ -6,6 +6,7 @@ import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import GoBack from './GoBack'
 import './Style.css'
+import { getUserInfo } from './api'
 
 
 
@@ -17,12 +18,9 @@ function RecentWordsAdded() {
     
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
-    // const [addSelected, setAddSelected] = useState(false);
-    // const [newWord, setNewWord] = useState("")
-    // const [error, setError] = useState(null)
-    // const [lplaceholder, setLPlaceholder] = useState('')
+    const [createData, setCreateData] = useState({});
     const [count, setCount] = useState(50)
-    console.log(lang)
+
 
     
     
@@ -43,7 +41,7 @@ function RecentWordsAdded() {
       },
       })
       .then((response) => {
-          console.log(response)
+
       setData(response.data)
       })
       .catch((error) => {
@@ -53,39 +51,14 @@ function RecentWordsAdded() {
   }
 
     useEffect(() => {
-        
+
+      if (sessionToken) {
+      getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
       fetchTranslations()
     
-        if (sessionToken) {
-          axios({
-                "method": "GET",
-                "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
-                headers: {
-                  'Access-Control-Allow-Origin' : '*',
-                  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                  'x-authorization':sessionToken
-                  },
-                })
-                .then((requestResponse) => {
-    
-                setVoteData(requestResponse.data)
-                })
-                .catch((error) => {
-            
-                  console.log(error)
-                  if (error.response.status === 403) {
-                    history.push("/");
-                    alert("Timed out You need to logout.")
-                  }
-                })
-          
-          }
-          
       }, [url, sessionToken])
     
-      
-    // let borederless = {"box-shadow":"none", "border":"none"}
-
 
     return <div className="container">
             <div><GoBack /></div>
@@ -107,7 +80,7 @@ function RecentWordsAdded() {
             <br />
             <br />
             <div className="row">
-                <Translations lang={lang} data={data} voteData={voteData}/>
+                <Translations lang={lang} data={data} voteData={voteData} createData={createData} />
             </div>
             <div className="row">
             </div>

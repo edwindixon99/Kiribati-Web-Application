@@ -1,17 +1,23 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState} from "react";
 import useLocalStorage from "./hooks/useLocalStorage";
 import './box.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsDown, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import useForceUpdate from 'use-force-update';
 import { useHistory } from "react-router-dom";
 import Word from "./Word"
+import './Style.css'
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button"
 
 
-function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
+function Translation({order, kiriPhrase, engPhrase, rating, id, voteType, created}) {
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [vote, setVote] = useState(voteType);
+    const [removed, setRemoved] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    // const [created, setCreated] = useState("hello:");
     const forceUpdate = useForceUpdate();
     const history = useHistory();
 
@@ -20,6 +26,27 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
         setVote(voteType);
     }, [voteType])
 
+    function removeTranslation(){
+        setRemoved(true);
+        if (sessionToken) {
+            axios({
+                "method": "DELETE",
+                "url": `https://acme.kiribatitranslate.com/api/v1/translations/${id}`,
+                headers: {
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'x-authorization':sessionToken
+                    },
+                })
+                .then(() => {
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            
+            }
+    }
 
     function chooseColour(rating) {
         let r = 0;
@@ -109,53 +136,78 @@ function Translation({order, kiriPhrase, engPhrase, rating, id, voteType}) {
           }
     }
 
+    function handleClose() {
+        setShowDeleteModal(false)
+    }
 
 
-    return      <div className="Translation container">
+
+    return (removed)? null : <div className="Translation container">
                     <div className="row">
-                        <div className="col-12 col-md-5">
+                        <div className="col-12 col-xl-5">
                         {(order)
                         ? <Word word={kiriPhrase} isKiri={order}/>
                         : <Word word={engPhrase} isKiri={order}/>
                         }
                         </div>
-                        <div className="col-12 col-md-5">
+                        <div className="col-12 col-xl-5">
                         {(order)
                             ? <Word word={engPhrase} isKiri={!order}/>
                             : <Word word={kiriPhrase} isKiri={!order}/>
                         }
                         </div>
                         {sessionToken &&
-                        <div className="col-4 col-md-1">
+                        <div className="col-4 col-xl-1">
 
                         <div className="row">
                         
                         <div className="col">
                         {
                         vote === 1?
-                        <FontAwesomeIcon style={{"color":"green"}}  icon={faThumbsUp}  size="lg" onClick={removevote}/>
-                        : <FontAwesomeIcon icon={faThumbsUp}  size="lg" onClick={upvote}/>
+                        <FontAwesomeIcon className="clickable-div" style={{"color":"green"}}  icon={faThumbsUp}  size="lg" onClick={removevote}/>
+                        : <FontAwesomeIcon className="clickable-div" icon={faThumbsUp}  size="lg" onClick={upvote}/>
                         }
                         </div>
                         <div className="col">
                         {
                         vote === 0?
-                        <FontAwesomeIcon style={{"color":"red"}}  icon={faThumbsDown}  size="lg" onClick={removevote}/>
-                        : <FontAwesomeIcon icon={faThumbsDown}  size="lg" onClick={downvote}/>
+                        <FontAwesomeIcon className="clickable-div" style={{"color":"red"}}  icon={faThumbsDown}  size="lg" onClick={removevote}/>
+                        : <FontAwesomeIcon className="clickable-div" icon={faThumbsDown}  size="lg" onClick={downvote}/>
                         }
                         </div>
                         
                         </div>
                         </div>
                         }
-                        <div className="col-6 col-md-1">
-                            <div className="box" style={chooseColour(rating)}/>
+                        <div className="col-6 col-xl-1">
+                            <div className="row">
+                                <div className="col">
+                                    <div className="box" style={chooseColour(rating)}/>
+                                </div>
+                                <div className="col">
+                                    {created && <FontAwesomeIcon className="clickable-div" icon={faTrash}  size="lg" onClick={() => setShowDeleteModal(true)}/>}
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                     <br/>
-                </div>;
-    
 
+                    <Modal show={showDeleteModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Delete Translation</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>are you sure you want to delete translation?  <p>{engPhrase} : {kiriPhrase}</p></Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="danger" onClick={removeTranslation}>
+                            Delete
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
   }
   
   export default Translation;

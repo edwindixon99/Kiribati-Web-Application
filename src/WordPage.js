@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import GoBack from './GoBack'
 import './Style.css'
+import {fetchTranslations, getUserInfo } from './api'
 
 
 
@@ -15,14 +16,14 @@ function WordPage() {
     const history = useHistory();
     const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
-    
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
+    const [createData, setCreateData] = useState({});
     const [addSelected, setAddSelected] = useState(false);
     const [newWord, setNewWord] = useState("")
     const [error, setError] = useState(null)
     const [lplaceholder, setLPlaceholder] = useState('')
-    console.log(lang)
+    const [fetchError, setFetchError] = useState(null)
 
     
     
@@ -30,27 +31,7 @@ function WordPage() {
     
     
     
-    async function fetchTranslations() {
-      axios({
-      "method": "GET",
-      "url": url,
-      headers: {
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        },
-      "params": {
-          "q": word,
-          "exact":true
-      },
-      })
-      .then((response) => {
-      setData(response.data)
-      })
-      .catch((error) => {
-      console.log(error)
-      })
-      
-  }
+
 
     const otherLang = function(language) {
       
@@ -71,7 +52,6 @@ function WordPage() {
     const addTranslation = function(e) {
       e.preventDefault();
       
-      // setAddSelected(false)
       async function postTranslation() {
       axios({
         "method": "POST",
@@ -87,9 +67,9 @@ function WordPage() {
           setError(null)
           setAddSelected(false)
           setNewWord("")
-          fetchTranslations()
+          getUserInfo(setVoteData, setCreateData, history, sessionToken)
+          fetchTranslations(url, word, setData, setFetchError)
 
-        
         })
         .catch((error) => {
     
@@ -107,51 +87,28 @@ function WordPage() {
         postTranslation()
       } else {
         setError("Bad input format")
-      }
-      // postTranslation()    
+      }  
     }
   
 
     useEffect(() => {
       getPlaceholder(lang)
-      // if (!/^[a-zA-Z0-9.!?_\\-]+( [a-zA-Z0-9.!?_\\-]+)*$/.test(word)) {
-      //   history.goBack()
-      // }
-        if (word) {
-            fetchTranslations()
-            
-        }
-        if (sessionToken) {
-            axios({
-                "method": "GET",
-                "url": `https://acme.kiribatitranslate.com/api/v1/translations/votes`,
-                headers: {
-                  'Access-Control-Allow-Origin' : '*',
-                  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                  'x-authorization':sessionToken
-                  },
-                })
-                .then((requestResponse) => {
-    
-                setVoteData(requestResponse.data)
-                })
-                .catch((error) => {
-            
-                  console.log(error)
-                  if (error.response.status === 403) {
-                    history.push("/");
-                    alert("Timed out You need to logout.")
-                  }
-                })
+
+      if (sessionToken) {
+        getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      }
+
+      if (word) {
+          fetchTranslations(url, word, setData, setFetchError)
           
-          }
-          
-          if (addSelected) {
-            setAddSelected(false)
-            setError(null)
-          }
-          setError(null)
-      }, [word, url, sessionToken])
+      }
+        
+      if (addSelected) {
+        setAddSelected(false)
+        setError(null)
+      }
+      setError(null)
+    }, [word, url, sessionToken])
     
       
     let borederless = {"box-shadow":"none", "border":"none"}
@@ -166,7 +123,7 @@ function WordPage() {
               <div className="col-12 col-md-6">
                 {addSelected && sessionToken && <div className="row">
                   <form className="form-inline">
-                  <input value={newWord} onChange={e => setNewWord(e.target.value)} style={borederless} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
                   {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
                   <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
                   </form>
@@ -178,7 +135,7 @@ function WordPage() {
             <br />
             <br />
             <div className="row">
-                <Translations lang={lang} data={data} voteData={voteData}/>
+                {(fetchError)? fetchError.map((e, i) => <div><h2>{e}</h2></div>) : <Translations lang={lang} data={data} voteData={voteData} createData={createData} />}
             </div>
         </div>
     
