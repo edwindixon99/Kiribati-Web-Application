@@ -33,24 +33,27 @@ async function fetchTranslations(url, word, setData, setError, language, exact =
 
 async function addToRequested(word, language) {
   const isKiri = (language === "kiribati")? 1: 0;
+  if (word.length > 0) {
     axios({
-        "method": "POST",
-        "url": `https://acme.kiribatitranslate.com/api/v1/requests`,
-        headers: {
-          'Access-Control-Allow-Origin' : '*',
-          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-          },
-        data: {
-          "word": word,
-          "isKiri":isKiri
+      "method": "POST",
+      "url": `https://acme.kiribatitranslate.com/api/v1/requests`,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
         },
-        })
-        .then((requestResponse) => {
+      data: {
+        "word": word,
+        "isKiri":isKiri
+      },
+      })
+      .then((requestResponse) => {
 
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
 
-        })
+      })
+  }
+    
 }
 
 
