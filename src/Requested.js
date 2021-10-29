@@ -6,7 +6,7 @@ import useLocalStorage from './hooks/useLocalStorage';
 import { useHistory } from "react-router-dom";
 import GoBack from './GoBack'
 import './Style.css'
-import { getUserInfo } from './api'
+import { getUserInfo, addToRequested } from './api'
 import AddWordComponent from './AddWordCompnent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -88,22 +88,28 @@ function Requested() {
       
   }
 
-    function requestWordButton(lang, setAddSelected, newWord, setNewWord, addSelected) {
-        return <>{(addSelected && sessionToken) && <div className="row">
+
+    function addRequest(word, language) {
+      console.log("hello")
+      // addToRequested(word, language)
+    }
+
+    function requestWordButton(lang, setRequestSelected, newWord, setNewWord, requestSelected) {
+        return <>{(requestSelected && sessionToken) && <div className="row">
         <form className="form-inline">
         <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={`Enter ${getLang(lang)} Word`} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
         {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
         <div className="row">
             <div className="col">
-                <button type="submit" className="btn btn-secondary btn-lg" onClick={()=>console.log("clicked")}>Request</button>
+                <button type="submit" className="btn btn-secondary btn-lg" onClick={()=> console.log("hello")}>Request</button>
             </div>
             <div className="col">
-                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={() => {setAddSelected(false); setNewWord("")}}/>
+                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={() => {setRequestSelected(false); setNewWord("")}}/>
             </div>
         </div>
         </form>
         </div>}
-    {!addSelected && sessionToken && <button onClick={() => {setAddSelected(true); setSuccess(false)}} className="btn btn-info btn-lg">Request {getLang(lang)} Word Translation</button>}
+    {!requestSelected && sessionToken && <button onClick={() => {setRequestSelected(true); setSuccess(false)}} className="btn btn-info btn-lg">Request {getLang(lang)} Word Translation</button>}
     {success && <div><h2><span className="badge bg-success">Translation added successfully</span></h2></div>}
     <br />
     <br />
