@@ -15,7 +15,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function AddWordComponent({lang, word}) {
+function AddWordComponent({isKiri, word}) {
     const history = useHistory();
     // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
@@ -28,9 +28,13 @@ function AddWordComponent({lang, word}) {
     const [lplaceholder, setLPlaceholder] = useState('')
     const [fetchError, setFetchError] = useState(null)
     const [success, setSuccess] = useState(false);
+    const [lang, setLang] = useState(null)
 
-    
-    
+
+    // const getLang = () => {
+    //   setLang((isKiri === 1)? 'kiribati': 'english');
+    // }
+
     let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
     
     
@@ -46,6 +50,8 @@ function AddWordComponent({lang, word}) {
          return 'English'
        }
     }
+
+
     const getPlaceholder = function(language) {
       if (language === 'english') {
         setLPlaceholder('in Kiribati means')
@@ -53,6 +59,8 @@ function AddWordComponent({lang, word}) {
         setLPlaceholder('in English means')
       }
     }
+
+
     const addTranslation = function(e) {
       e.preventDefault();
       
@@ -96,13 +104,22 @@ function AddWordComponent({lang, word}) {
       }  
     }
   
+    const exit = function() {
+      setAddSelected(false); 
+      setNewWord("");
+      setError(null)
+      console.log(isKiri)
+    }
+
 
     useEffect(() => {
+
+      setLang((isKiri === 1)? 'kiribati': 'english')
       getPlaceholder(lang)
 
-      if (sessionToken) {
-        getUserInfo(setVoteData, setCreateData, history, sessionToken)
-      }
+      // if (sessionToken) {
+      //   getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      // }
 
     //   if (word) {
     //       fetchTranslations(url, word, setData, setFetchError)
@@ -130,7 +147,7 @@ function AddWordComponent({lang, word}) {
                 <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
             </div>
             <div className="col">
-                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={() => {setAddSelected(false); setNewWord("")}}/>
+                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={exit}/>
             </div>
         </div>
         </form>

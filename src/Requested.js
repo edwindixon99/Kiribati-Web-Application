@@ -27,7 +27,7 @@ function Requested() {
     const history = useHistory();
     // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
-    const [data, setData] = useState([]);
+    const [wordData, setWordData] = useState([]);
     const [voteData, setVoteData] = useState({});
     const [createData, setCreateData] = useState({});
     const [addESelected, setAddESelected] = useState(false);
@@ -41,7 +41,7 @@ function Requested() {
 
     
     
-    let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
+    let url = "https://acme.kiribatitranslate.com/api/v1/requests";
     
     
     
@@ -69,27 +69,24 @@ function Requested() {
     
     
     
-//     async function fetchTranslations() {
-//       axios({
-//       "method": "GET",
-//       "url": url,
-//       headers: {
-//         'Access-Control-Allow-Origin' : '*',
-//         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-//         },
-//       "params": {
-//           "count":count
-//       },
-//       })
-//       .then((response) => {
+    async function fetchRequestedWords() {
+      axios({
+      "method": "GET",
+      "url": url,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+      })
+      .then((response) => {
 
-//       setData(response.data)
-//       })
-//       .catch((error) => {
-//       console.log(error)
-//       })
+      setWordData(response.data)
+      })
+      .catch((error) => {
+      console.log(error)
+      })
       
-//   }
+  }
 
     function requestWordButton(lang, setAddSelected, newWord, setNewWord, addSelected) {
         return <>{(addSelected && sessionToken) && <div className="row">
@@ -116,12 +113,12 @@ function Requested() {
 
     useEffect(() => {
 
-      if (sessionToken) {
-      getUserInfo(setVoteData, setCreateData, history, sessionToken)
-      }
-    //   fetchTranslations()
+      // if (sessionToken) {
+      // getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      // }
+      fetchRequestedWords()
     
-      }, [sessionToken])
+      }, [])
     
 
     return <div className="container">
@@ -141,7 +138,7 @@ function Requested() {
                 </div>
             </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
                 {sessionToken ? <><div className="col-12 col-md-5">
                 {requestWordButton('english', setAddESelected, newEWord, setNewEWord, addESelected)}
                 </div>
@@ -151,18 +148,16 @@ function Requested() {
             </>
                 :<h2><span class="badge bg-warning clickable-div" onClick={() => history.push('/')}>Log in to Request Words and Add Translations</span></h2>}
                 
-            </div>
+            </div> */}
 
-            <div className="row">
-                <AddWordComponent lang={lang} word={"hello"} />
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <div className="row">
-            <AddWordComponent lang={'kiribati'} word={"hello"} />
-            </div>
+            {wordData.map((wordJson, i) => <><div className="row">
+              <AddWordComponent isKiri={wordJson.isKiri} word={wordJson.word} />
+              </div>
+              <br/>
+              <br/>
+              
+              </>
+            )}
         </div>
     
 

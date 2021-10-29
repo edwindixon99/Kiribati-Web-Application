@@ -68,7 +68,7 @@ function WordPage() {
           setAddSelected(false)
           setNewWord("")
           getUserInfo(setVoteData, setCreateData, history, sessionToken)
-          fetchTranslations(url, word, setData, setFetchError)
+          fetchTranslations(url, word, setData, setFetchError, lang)
 
         })
         .catch((error) => {

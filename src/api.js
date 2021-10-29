@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-async function fetchTranslations(url, word, setData, setError,  exact = true) {
+async function fetchTranslations(url, word, setData, setError, language, exact = true) {
     axios({
     "method": "GET",
     "url": url,
@@ -24,9 +24,35 @@ async function fetchTranslations(url, word, setData, setError,  exact = true) {
       if (error.response.status === 404) {
         setData([])
         setError([`no results found for '${word}'`, `e aki reke te taeka anne '${word}'`])
+        if (exact) {
+          addToRequested(word, language)
+        }
       }
     })
   }
+
+async function addToRequested(word, language) {
+  const isKiri = (language === "kiribati")? 1: 0;
+    axios({
+        "method": "POST",
+        "url": `https://acme.kiribatitranslate.com/api/v1/requests`,
+        headers: {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+          },
+        data: {
+          "word": word,
+          "isKiri":isKiri
+        },
+        })
+        .then((requestResponse) => {
+
+        })
+        .catch((error) => {
+
+        })
+}
+
 
 async function getUsersVotes(setVoteData, history, sessionToken) {
     axios({
