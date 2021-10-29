@@ -53,12 +53,12 @@ function TranslationPage(props) {
     }
 
       if (searchParam.length > 0) {
-        fetchTranslations(url, searchParam, setData, setError, exact)
+        fetchTranslations(url, searchParam, setData, setError, props.lang, exact)
           
       }
-      if (exact) {
-        fetchTranslations(url, searchParam, setData, setError, exact)
-      }
+      // if (exact) {
+      //   fetchTranslations(url, searchParam, setData, setError, props.lang, exact)
+      // }
 
   }, [searchParam, loading, url, sessionToken, exact])
 

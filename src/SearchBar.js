@@ -1,6 +1,6 @@
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 class SearchBar extends Component {
 
@@ -68,7 +68,9 @@ class SearchBar extends Component {
             </div>
             
             <br/>
+            
           </div>
+        
         );
       }
 }
