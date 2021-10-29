@@ -5,7 +5,7 @@ import Register from './Register'
 import Home from './Home'
 import WordPage from './WordPage';
 import RecentWordsAdded from './RecentWordsAdded'
-
+import Requested from './Requested'
 
 
 const Main = () => (
@@ -16,6 +16,7 @@ const Main = () => (
       <Route exact path='/register' component={Register} />
       <Route exact path='/:lang/:word' component={WordPage} />
       <Route exact path='/recent' component={RecentWordsAdded} />
+      {/* <Route exact path='/requested' component={Requested} /> */}
     </Switch>
   );
 

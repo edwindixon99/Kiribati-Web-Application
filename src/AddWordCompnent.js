@@ -8,13 +8,16 @@ import { useParams } from 'react-router-dom';
 import GoBack from './GoBack'
 import './Style.css'
 import {fetchTranslations, getUserInfo } from './api'
+import Word from './Word';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 
 
 
-function WordPage() {
+function AddWordComponent({isKiri, word}) {
     const history = useHistory();
-    const { lang, word } = useParams();
+    // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
     const [data, setData] = useState([]);
     const [voteData, setVoteData] = useState({});
@@ -24,9 +27,14 @@ function WordPage() {
     const [error, setError] = useState(null)
     const [lplaceholder, setLPlaceholder] = useState('')
     const [fetchError, setFetchError] = useState(null)
+    const [success, setSuccess] = useState(false);
+    const [lang, setLang] = useState(null)
 
-    
-    
+
+    // const getLang = () => {
+    //   setLang((isKiri === 1)? 'kiribati': 'english');
+    // }
+
     let url = "https://acme.kiribatitranslate.com/api/v1/" + lang;
     
     
@@ -42,6 +50,8 @@ function WordPage() {
          return 'English'
        }
     }
+
+
     const getPlaceholder = function(language) {
       if (language === 'english') {
         setLPlaceholder('in Kiribati means')
@@ -49,6 +59,8 @@ function WordPage() {
         setLPlaceholder('in English means')
       }
     }
+
+
     const addTranslation = function(e) {
       e.preventDefault();
       
@@ -65,14 +77,15 @@ function WordPage() {
         })
         .then((requestResponse) => {
           setError(null)
+          setSuccess(true)
           setAddSelected(false)
           setNewWord("")
           getUserInfo(setVoteData, setCreateData, history, sessionToken)
-          fetchTranslations(url, word, setData, setFetchError, lang)
+        //   fetchTranslations(url, word, setData, setFetchError)
 
         })
         .catch((error) => {
-    
+            setSuccess(false)
           if (error.response.status === 400) {
             setError("Translation Already Exists")
           }
@@ -86,26 +99,37 @@ function WordPage() {
         
         postTranslation()
       } else {
+        setSuccess(false)
         setError("Bad input format")
       }  
     }
   
+    const exit = function() {
+      setAddSelected(false); 
+      setNewWord("");
+      setError(null)
+      console.log(isKiri)
+    }
+
 
     useEffect(() => {
+
+      setLang((isKiri === 1)? 'kiribati': 'english')
       getPlaceholder(lang)
 
-      if (sessionToken) {
-        getUserInfo(setVoteData, setCreateData, history, sessionToken)
-      }
+      // if (sessionToken) {
+      //   getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      // }
 
-      if (word) {
-          fetchTranslations(url, word, setData, setFetchError)
+    //   if (word) {
+    //       fetchTranslations(url, word, setData, setFetchError)
           
-      }
+    //   }
         
       if (addSelected) {
         setAddSelected(false)
         setError(null)
+        
       }
       setError(null)
     }, [word, url, sessionToken])
@@ -113,33 +137,43 @@ function WordPage() {
       
     let borederless = {"box-shadow":"none", "border":"none"}
 
-
-    return <div className="container">
-            <div><GoBack /></div>
-            <div className="row">
-              <div className="col">
-                <h1>{word}</h1>
-              </div>
-              <div className="col-12 col-md-6">
-                {addSelected && sessionToken && <div className="row">
-                  <form className="form-inline">
-                  <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
-                  {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
-                  <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
-                  </form>
-                  </div>}
-                {!addSelected && sessionToken && <button onClick={() => setAddSelected(true)} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
-                
-              </div>
+    function addWord() {
+        return <>{(addSelected && sessionToken) && <div className="row">
+        <form className="form-inline">
+        <input value={newWord} onChange={e => setNewWord(e.target.value)} className="form-control form-control-lg" type="text" placeholder={lplaceholder} pattern="^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$"/>
+        {error && <div><h2><span className="badge bg-danger">{error}</span></h2></div>}
+        <div className="row">
+            <div className="col">
+                <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
             </div>
-            <br />
-            <br />
-            <div className="row">
-                {(fetchError)? fetchError.map((e, i) => <div><h2>{e}</h2></div>) : <Translations lang={lang} data={data} voteData={voteData} createData={createData} />}
+            <div className="col">
+                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={exit}/>
             </div>
         </div>
-    
+        </form>
+        </div>}
+      {!addSelected && sessionToken && <button onClick={() => {setAddSelected(true); setSuccess(false)}} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
+      {success && <div><h2><span className="badge bg-success">Translation added successfully</span></h2></div>}
+      </>
+    }
 
+    return (lang == 'english')? 
+            <div className="row">
+               <div className="col-12 col-md-5">
+                <Word word={word} isKiri={false} />
+              </div>
+              <div className="col-12 col-md-5">
+                {addWord()}
+              </div>
+            </div> 
+            : <div className="row">
+              <div className="col-12 col-md-5">
+                {addWord()}
+              </div>
+              <div className="col-12 col-md-5">
+                <Word word={word} isKiri={true} />
+              </div>
+            </div>
   }
   
-  export default WordPage;
+  export default AddWordComponent;
