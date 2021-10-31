@@ -25,9 +25,13 @@ function TranslationPage(props) {
 
   let url = "https://acme.kiribatitranslate.com/api/v1/" + props.lang;
 
+
+  const modifyInput = function(word) {
+    return word.trim().replace(/\s+/g,' ');
+  }
+
   const onSearch = (searchTerm, exact) => {
- 
-    setSearchParam(searchTerm)
+    setSearchParam(modifyInput(searchTerm))
     setExact(exact)
 
   }
