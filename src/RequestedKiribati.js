@@ -10,15 +10,13 @@ import { getUserInfo, addToRequested } from './api'
 import AddWordComponent from './AddWordCompnent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import RequestedEnglish from './RequestedEnglish';
-import RequestedKiribati from './RequestedKiribati';
 
 
 
 
-function Requested() {
+function RequestedKiribati() {
     // const history = useHistory();
-    const lang = 'english';
+    const lang = 'kiribati';
     // const [sessionToken,] = useLocalStorage("sessionToken", null)
     
     // const [data, setData] = useState([]);
@@ -29,11 +27,26 @@ function Requested() {
     const history = useHistory();
     // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
+    const [wordData, setWordData] = useState([]);
+    const [voteData, setVoteData] = useState({});
+    const [createData, setCreateData] = useState({});
+    const [addESelected, setAddESelected] = useState(false);
+    const [newEWord, setNewEWord] = useState("")
+    const [addKSelected, setAddKSelected] = useState(false);
+    const [newKWord, setNewKWord] = useState("")
     const [error, setError] = useState(null)
     const [lplaceholder, setLPlaceholder] = useState('')
-    const [showEnglish, setShowEnglish] = useState(true);
     // const [fetchError, setFetchError] = useState(null)
     const [success, setSuccess] = useState(false);
+    const [disableButton, setDisableButton] = useState(false);
+
+    
+    
+    let url = "https://acme.kiribatitranslate.com/api/v1/requests/kiribati";
+    
+    
+    
+
 
     const getLang = function(language) {
       
@@ -44,6 +57,37 @@ function Requested() {
          return 'English'
        }
     }
+    const getPlaceholder = function(language) {
+      if (language === 'english') {
+        setLPlaceholder('in Kiribati means')
+      } else {
+        setLPlaceholder('in English means')
+      }
+    }
+    
+    
+    // let url = "https://acme.kiribatitranslate.com/api/v1/translations/recent";
+    
+    
+    
+    async function fetchRequestedWords() {
+      axios({
+      "method": "GET",
+      "url": url,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+      })
+      .then((response) => {
+
+      setWordData(response.data)
+      })
+      .catch((error) => {
+      console.log(error)
+      })
+      
+  }
 
 
     function addRequest(word, language) {
@@ -74,65 +118,28 @@ function Requested() {
     </>
     }
 
+    useEffect(() => {
+
+      // if (sessionToken) {
+      // getUserInfo(setVoteData, setCreateData, history, sessionToken)
+      // }
+      fetchRequestedWords()
+    
+      }, [])
     
 
     return <div className="container">
-            <div><GoBack /></div>
-            <div className="row">
-              <div className="col">
-                <h1>Requested Words</h1>
-              </div>
-              
-
-
-              <div className="row">
-              <div className="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" onClick={() => setShowEnglish(true)}><h2>English</h2></button>
-                <button type="button" class="btn btn-secondary" onClick={() => setShowEnglish(false)}><h2>Kiribati</h2></button>
-   
-              </div>
-              </div>
-              <div>
-                <br />
-                <br />
-              </div>
-              {/* <div className="row"> */}
-              {showEnglish? <RequestedEnglish /> : <RequestedKiribati />}
-              {/* </div> */}
-            </div>
-            {/* <div style={{"text-decoration": "underline", "color":"grey"}}className="container">
-              <div className="row">
-                <div className="col-12 col-md-5">
-                  <h2>English</h2>
-                </div>
-                <div className="col-12 col-md-5">
-                  <h2>Kiribati</h2>
-                </div>
-            </div>
-            </div>
-            {/* <div className="row">
-                {sessionToken ? <><div className="col-12 col-md-5">
-                {requestWordButton('english', setAddESelected, newEWord, setNewEWord, addESelected)}
-                </div>
-                <div className="col-12 col-md-5">
-                {requestWordButton('kiribati', setAddKSelected, newKWord, setNewKWord, addKSelected)}
-                </div>            <br />
-            </>
-                :<h2><span class="badge bg-warning clickable-div" onClick={() => history.push('/')}>Log in to Request Words and Add Translations</span></h2>}
-                
-            </div> */}
-
-            {/* {wordData.map((wordJson, i) => <><div className="row">
-              <AddWordComponent isKiri={wordJson.isKiri} word={wordJson.word} />
+            {wordData.map((wordJson, i) => <><div className="row">
+              <AddWordComponent isKiri={wordJson.isKiri} word={wordJson.word} disableButton={disableButton} setDisableButton={setDisableButton}/>
               </div>
               <br/>
               <br/>
               
               </>
-            )} */}
+            )}
         </div>
     
 
   }
   
-  export default Requested;
+  export default RequestedKiribati;

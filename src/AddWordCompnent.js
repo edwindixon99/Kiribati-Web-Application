@@ -15,7 +15,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function AddWordComponent({isKiri, word}) {
+function AddWordComponent({isKiri, word, disableButton, setDisableButton}) {
     const history = useHistory();
     // const { lang, word } = useParams();
     const [sessionToken,] = useLocalStorage("sessionToken", null)
@@ -94,6 +94,7 @@ function AddWordComponent({isKiri, word}) {
             alert("Timed out You need to logout.")
           }
         })
+        setDisableButton(false);
       }
       if (/^[a-zA-Z0-9.!?\\-]+( [a-zA-Z0-9.!?\\-]+)*$/.test(newWord)){
         
@@ -147,33 +148,26 @@ function AddWordComponent({isKiri, word}) {
                 <button type="submit" className="btn btn-secondary btn-lg" onClick={addTranslation}>Add</button>
             </div>
             <div className="col">
-                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={exit}/>
+                <FontAwesomeIcon className="clickable-div" icon={faTimes} size="3x" onClick={() => {exit(); setDisableButton(false)}}/>
             </div>
         </div>
         </form>
         </div>}
-      {!addSelected && sessionToken && <button onClick={() => {setAddSelected(true); setSuccess(false)}} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
+      {!addSelected && sessionToken && !disableButton && <button onClick={() => {setAddSelected(true); setSuccess(false); setDisableButton(true)}} className="btn btn-primary btn-lg">Add {otherLang(lang)} Translation</button>}
+      {!addSelected && sessionToken && disableButton && <button onClick={() => {setAddSelected(true); setSuccess(false); setDisableButton(true)}} className="btn btn-primary btn-lg" disabled>Add {otherLang(lang)} Translation</button>}
       {success && <div><h2><span className="badge bg-success">Translation added successfully</span></h2></div>}
       </>
     }
 
-    return (lang == 'english')? 
-            <div className="row">
-               <div className="col-12 col-md-5">
-                <Word word={word} isKiri={false} />
+    return <div className="row">
+               <div className="col-12 col-md-6">
+               {(lang == 'english')? <Word word={word} isKiri={false} /> : <Word word={word} isKiri={true} />}
               </div>
-              <div className="col-12 col-md-5">
+              <div className="col-12 col-md-6">
                 {addWord()}
               </div>
             </div> 
-            : <div className="row">
-              <div className="col-12 col-md-5">
-                {addWord()}
-              </div>
-              <div className="col-12 col-md-5">
-                <Word word={word} isKiri={true} />
-              </div>
-            </div>
+
   }
   
   export default AddWordComponent;

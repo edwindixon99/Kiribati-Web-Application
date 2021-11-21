@@ -16,7 +16,7 @@ const Main = () => (
       <Route exact path='/register' component={Register} />
       <Route exact path='/:lang/:word' component={WordPage} />
       <Route exact path='/recent' component={RecentWordsAdded} />
-      {/* <Route exact path='/requested' component={Requested} /> */}
+      <Route exact path='/requested' component={Requested} />
     </Switch>
   );
 
