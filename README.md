@@ -1,3 +1,3 @@
 # Kiribati-Web-Application
 
-website is live: www.kiribatitranslate.com/
+Website is live: www.kiribatitranslate.com/
